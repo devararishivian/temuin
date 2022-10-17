@@ -1,8 +1,10 @@
 # Temuin
 
-Temuin lahir dari sebuah masalah yang dialami berbagai kalangan masyarakat. Kehilangan sesuatu merupakan hal yang tidak diharapkan oleh siapapun. Seringkali kita tidak begitu saja mengikhlaskan apa yang telah hilang, namun mencoba untuk berikhtiar dalam menemukan kembali. Tak jarang kita jumpai *postingan* di berbagai sosmed seperti status WhatsApp, cerita Instagram, grup facebook, dan sebagainya mengenai barang maupun hewan peliharaan yang hilang. Tiang listrik dan tembok sebuah bangunan juga tak luput menjadi sasaran untuk menempel poster pengumuman kehilangan. Dari latar belakang tersebut, terciptalah Temuin yang diharapkan dapat sangat bermanfaat sebagai wadah untuk memberikan informasi mengenai sesuatu yang hilang. Dan sebaliknya, bagi kita yang menemukan sesuatu tak berpemilik juga dapat turut menginformasikannya dalam Temuin.
-<br />
-<br />
+Temuin lahir dari sebuah masalah yang dialami berbagai kalangan masyarakat. Kehilangan sesuatu merupakan hal yang tidak diharapkan oleh siapapun. Seringkali kita tidak begitu saja mengikhlaskan apa yang telah hilang, namun mencoba untuk berikhtiar dalam menemukan kembali. Tak jarang kita jumpai *postingan* di berbagai sosmed seperti status WhatsApp, cerita Instagram, grup facebook, dan sebagainya mengenai barang maupun hewan peliharaan yang hilang. Tiang listrik dan tembok sebuah bangunan juga tak luput menjadi sasaran untuk menempel poster pengumuman kehilangan. 
+
+Dari latar belakang tersebut, terciptalah Temuin yang diharapkan dapat sangat bermanfaat sebagai wadah untuk memberikan informasi mengenai sesuatu yang hilang. Dan sebaliknya, bagi kita yang menemukan sesuatu tak berpemilik juga dapat turut menginformasikannya dalam Temuin.
+
+
 ## Teknologi yang dipakai
 
 - [React](https://beta.reactjs.org) - UI framework
@@ -11,18 +13,18 @@ Temuin lahir dari sebuah masalah yang dialami berbagai kalangan masyarakat. Kehi
 - [Native Base](https://nativebase.io) - Universal Components for React & React Native
 - [Supabase](https://supabase.com) - Backend as a service sebagai alternatif open-source dari Firebase
 - [Yarn](https://classic.yarnpkg.com) - Dependency/Package manager
-<br />
-<br />
+
+
 ## How to Develop Temuin
 
 1. Baca https://docs.expo.dev/get-started/installation. Siapkan Git, Nodejs, dan Yarn pada OS Anda. Persiapkan juga perangkat mobile atau simulator
 2. Clone repository ini. Jalankan `yarn install`
 3. Baca https://docs.expo.dev/get-started/create-a-new-app/#starting-the-development-server. Karena project ini memakai Yarn, maka ganti `npx` menjadi `yarn`.
 4. Catatan: Selalu luangkan waktu untuk membaca dokumentasi terlebih dahulu demi kebaikan bersama.
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+
+
+
+
+
+
 Init readme - devvara 17102022
