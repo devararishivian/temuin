@@ -13,12 +13,4 @@ function App() {
   );
 }
 
-<<<<<<< HEAD
-const ExampleButton = () => {
-  return <Box alignItems="center">
-      <Button onPress={() => console.log("hello world")}>Click Me Now</Button>
-    </Box>;
-};
-=======
 export default App;
->>>>>>> develop
