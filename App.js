@@ -1,19 +1,24 @@
-import React from "react";
-import { NativeBaseProvider, Text, Box, Button } from "native-base";
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import BottomNavigator from './components/BottomNavigator';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-export default function App() {
+function App() {
   return (
-    <NativeBaseProvider>
-      <Box flex={1} bg="#fff" alignItems="center" justifyContent="center">
-        <Text>Open up App.js to start working on your app!</Text>
-        <ExampleButton></ExampleButton>
-      </Box>
-    </NativeBaseProvider>
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <BottomNavigator></BottomNavigator>
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }
 
+<<<<<<< HEAD
 const ExampleButton = () => {
   return <Box alignItems="center">
       <Button onPress={() => console.log("hello world")}>Click Me Now</Button>
     </Box>;
 };
+=======
+export default App;
+>>>>>>> develop
