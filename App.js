@@ -14,6 +14,6 @@ export default function App() {
 
 const ExampleButton = () => {
   return <Box alignItems="center">
-      <Button onPress={() => console.log("hello world")}>Click Me</Button>
+      <Button onPress={() => console.log("hello world")}>Click Me Now</Button>
     </Box>;
 };
