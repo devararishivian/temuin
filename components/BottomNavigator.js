@@ -1,10 +1,10 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Icon } from "@rneui/themed";
 import TimelineScreen from '../screens/Timeline';
 
 const Tab = createBottomTabNavigator();
 
-export default function Footer() {
+export default function BottomNavigator() {
     return (
         <Tab.Navigator
             initialRouteName="Timeline"
@@ -18,7 +18,7 @@ export default function Footer() {
                 options={{
                     tabBarLabel: 'Beranda',
                     tabBarIcon: ({ color, size }) => (
-                        <MaterialCommunityIcons name="home" color={color} size={size} />
+                        <Icon type='feather' name='home' color={color} size={size} />
                     ),
                 }}
             />
@@ -28,7 +28,7 @@ export default function Footer() {
                 options={{
                     tabBarLabel: 'Post Baru',
                     tabBarIcon: ({ color, size }) => (
-                        <MaterialCommunityIcons name="plus-circle" color={color} size={size} />
+                        <Icon type='feather' name='plus-circle' color={color} size={size} />
                     ),
                 }}
             />
@@ -38,7 +38,7 @@ export default function Footer() {
                 options={{
                     tabBarLabel: 'Profil',
                     tabBarIcon: ({ color, size }) => (
-                        <MaterialCommunityIcons name="account" color={color} size={size} />
+                        <Icon type='feather' name='user' color={color} size={size} />
                     ),
                 }}
             />
