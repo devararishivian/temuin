@@ -5,6 +5,11 @@ Temuin lahir dari sebuah masalah yang dialami berbagai kalangan masyarakat. Kehi
 Dari latar belakang tersebut, terciptalah Temuin yang diharapkan dapat sangat bermanfaat sebagai wadah untuk memberikan informasi mengenai sesuatu yang hilang. Dan sebaliknya, bagi kita yang menemukan sesuatu tak berpemilik juga dapat turut menginformasikannya dalam Temuin.
 
 
+## Docs
+- [Timeline](https://binusianorg-my.sharepoint.com/personal/qaisha_rishivian_binus_ac_id/_layouts/15/guestaccess.aspx?share=EUsdphtRrN1Cm4VvQ3e1slYBmrJoeFAEKou86vHiwF5mDg&e=FvuPSB) - Project Schedule
+- [Wireframe](https://whimsical.com/temuin-mobile-Xmhww8AE9aKp2wfNoGa2jY) - Wireframe Mobile App
+
+
 ## Teknologi yang dipakai
 
 - [React](https://beta.reactjs.org) - UI framework
