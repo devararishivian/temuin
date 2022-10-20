@@ -12,10 +12,10 @@ const Stack = createNativeStackNavigator();
 
 const AuthScreen = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Landing" component={LandingScreen} options={{ title: '' }} />
-      <Stack.Screen name="Login" component={LoginScreen} options={{ title: '' }} />
-      <Stack.Screen name="Register" component={RegisterScreen} options={{ title: '' }} />
+    <Stack.Navigator screenOptions={{ header: () => null }}>
+      <Stack.Screen name="Landing" component={LandingScreen} />
+      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Register" component={RegisterScreen} />
     </Stack.Navigator>
   );
 }
