@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Icon } from "@rneui/themed";
-import TimelineScreen from '../screens/Timeline';
+import TimelineScreen from '../screens/App/Timeline';
 
 const Tab = createBottomTabNavigator();
 

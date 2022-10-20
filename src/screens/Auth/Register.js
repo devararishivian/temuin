@@ -1,14 +1,15 @@
 import * as React from 'react';
 import { Button, View, Text } from 'react-native';
 
-export default function LandingScreen({ navigation }) {
+export default function RegisterScreen({ navigation }) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Landing Screen</Text>
+        <Text>Register Screen</Text>
+
         <Button
-          title="Go to Timeline"
-          onPress={() => navigation.navigate('Timeline')}
-        />
+                title="Go to Login"
+                onPress={() => navigation.navigate('Login')}
+            />
       </View>
     );
   }
