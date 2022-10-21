@@ -65,8 +65,8 @@ export default function RegisterScreen({ navigation }) {
                 autoCapitalize="none"
                 onChangeText={handleChange('name')}
                 value={values.name}
-
               />
+              {errors.name ? (<Text style={styles.textInputErrorMessage}>{errors.name}</Text>) : <></>}
               <TextInput
                 style={styles.name_pass}
                 placeholder="Email"
@@ -76,6 +76,7 @@ export default function RegisterScreen({ navigation }) {
                 onChangeText={handleChange('email')}
                 value={values.email}
               />
+              {errors.email ? (<Text style={styles.textInputErrorMessage}>{errors.email}</Text>) : <></>}
               <TextInput
                 style={styles.password}
                 placeholder="Kata Sandi"
@@ -86,6 +87,7 @@ export default function RegisterScreen({ navigation }) {
                 onChangeText={handleChange('password')}
                 value={values.password}
               />
+              {errors.password ? (<Text style={styles.textInputErrorMessage}>{errors.password}</Text>) : <></>}
             </View>
             <View>
               <TouchableOpacity onPress={handleSubmit} style={styles.button}>
