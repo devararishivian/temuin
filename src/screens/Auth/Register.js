@@ -1,55 +1,87 @@
 import * as React from "react";
-import { KeyboardAvoidingView, TextInput, View } from "react-native";
 import {
+  KeyboardAvoidingView,
+  TextInput,
+  View,
   ImageBackground,
   ScrollView,
   Text,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import { Formik } from 'formik';
 
 export default function RegisterScreen({ navigation }) {
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.keyboard}
+    <Formik
+      initialValues={{
+        username: '',
+        name: '',
+        email: '',
+        password: '',
+      }}
+      onSubmit={values => console.log(values)}
     >
-      <ScrollView
-        contentContainerStyle={styles.container}
-        showsVerticalScrollIndicator={false}
-      >
-        <ImageBackground
-          source={require("../../../assets/main-logo.png")}
-          style={styles.logo}
-        ></ImageBackground>
-        <Text style={styles.welcomeText}>Welcome to Temuin!</Text>
-        <Text style={styles.loginText}>Daftarkan diri anda</Text>
-        <View>
-          <TextInput style={styles.username} placeholder="nama pengguna"></TextInput>
-          <TextInput style={styles.name_pass} placeholder="nama"></TextInput>
-          <TextInput style={styles.name_pass} placeholder="email"></TextInput>
-          <TextInput
-            style={styles.password}
-            placeholder="kata sandi"
-            secureTextEntry={true}
-          ></TextInput>
-        </View>
-        <View>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.text}>Daftar</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.signup}>
-          <Text>Already have an account?</Text>
-          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-            <Text style={{ color: "#8A4065", fontWeight: "bold" }}>
-              {" "}
-              Sign in here
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+      {({ handleChange, handleBlur, handleSubmit, values }) => (
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.keyboard}
+        >
+          <ScrollView
+            contentContainerStyle={styles.container}
+            showsVerticalScrollIndicator={false}
+          >
+            <ImageBackground
+              source={require("../../../assets/main-logo.png")}
+              style={styles.logo}
+            ></ImageBackground>
+            <Text style={styles.welcomeText}>Welcome to Temuin!</Text>
+            <Text style={styles.loginText}>Daftarkan diri anda</Text>
+            <View>
+              <TextInput
+                style={styles.username}
+                placeholder="Nama Pengguna"
+                onChangeText={handleChange('username')}
+                value={values.username}
+              />
+              <TextInput
+                style={styles.name_pass}
+                placeholder="Nama"
+                onChangeText={handleChange('name')}
+                value={values.name}
+              />
+              <TextInput
+                style={styles.name_pass}
+                placeholder="Email"
+                onChangeText={handleChange('email')}
+                value={values.email}
+              />
+              <TextInput
+                style={styles.password}
+                placeholder="Kata Sandi"
+                secureTextEntry={true}
+                onChangeText={handleChange('password')}
+                value={values.password}
+              />
+            </View>
+            <View>
+              <TouchableOpacity onPress={handleSubmit} style={styles.button}>
+                <Text style={styles.text}>Daftar</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.signup}>
+              <Text>Already have an account?</Text>
+              <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+                <Text style={{ color: "#8A4065", fontWeight: "bold" }}>
+                  {" "}
+                  Sign in here
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      )}
+    </Formik>
   );
 }
 
@@ -122,7 +154,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 20,
     borderColor: "#8A4065",
-    },
+  },
   keyboard: {
     flex: 1,
   },
