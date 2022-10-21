@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { supabase } from '../../../lib/supabase';
 
 const schema = Yup.object().shape({
   username: Yup.string().min(6).max(24).lowercase().trim().required(),
@@ -20,6 +21,21 @@ const schema = Yup.object().shape({
 });
 
 export default function RegisterScreen({ navigation }) {
+  const handleRegister = async (values, setSubmitting) => {
+    const { data, error } = await supabase.auth.signUp({
+      email: values.email,
+      password: values.password,
+      options: {
+        data: {
+          username: values.username,
+          name: values.name,
+        }
+      }
+    })
+    console.log(data);
+    console.log(error);
+  };
+
   return (
     <Formik
       validationSchema={schema}
@@ -29,9 +45,9 @@ export default function RegisterScreen({ navigation }) {
         email: '',
         password: '',
       }}
-      onSubmit={values => console.log(values)}
+      onSubmit={(values, { setSubmitting }) => handleRegister(values, setSubmitting)}
     >
-      {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
+      {({ handleChange, handleBlur, handleSubmit, setSubmitting, values, errors }) => (
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.keyboard}
