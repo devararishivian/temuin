@@ -16,7 +16,7 @@ export default function LandingScreen({ navigation }) {
       ></ImageBackground>
       <Text style={styles.wellcomeText}>Wellcome to Temuin
       </Text>
-      <Text style={styles.descripton}>Netizen Temuin siap bantu cari barang mu yang hilang
+      <Text style={styles.descripton}>"Netizen Temuin siap bantu cari barang mu yang hilang"
       </Text>
         <TouchableOpacity
           style={styles.button}
@@ -29,12 +29,12 @@ export default function LandingScreen({ navigation }) {
 }
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 120,
+    marginTop : 120,
     alignItems: "center",
   },
   logo: {
-    width: 200,
-    height: 185,
+    width: 250,
+    height: 225,
   },
   button: {
     alignItems: "center",
@@ -61,12 +61,12 @@ const styles = StyleSheet.create({
     marginRight: 20,
     marginTop: 40,
     marginBottom: 40,
+    fontStyle:"italic",
   },
   wellcomeText :{
     fontWeight: "bold",
     color: "#8A4065",
     fontSize: 40,
     marginTop: 50,
-
   }
 });
