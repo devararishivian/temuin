@@ -1,5 +1,5 @@
 import * as React from "react";
-import { KeyboardAvoidingView, Pressable, TextInput, View } from "react-native";
+import { KeyboardAvoidingView, TextInput, View } from "react-native";
 import {
   ImageBackground,
   ScrollView,
@@ -11,8 +11,8 @@ import {
 export default function RegisterScreen({ navigation }) {
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : null}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.keyboard}
     >
       <ScrollView
         contentContainerStyle={styles.container}
@@ -22,27 +22,27 @@ export default function RegisterScreen({ navigation }) {
           source={require("../../../assets/main-logo.png")}
           style={styles.logo}
         ></ImageBackground>
-        <Text style={styles.welcomeText}>Welcome Back!</Text>
-        <Text style={styles.loginText}>Create your account</Text>
+        <Text style={styles.welcomeText}>Welcome to Temuin!</Text>
+        <Text style={styles.loginText}>Daftarkan diri anda</Text>
         <View>
-          <TextInput style={styles.username} placeholder="username"></TextInput>
-          <TextInput style={styles.name_pass} placeholder="name"></TextInput>
+          <TextInput style={styles.username} placeholder="nama pengguna"></TextInput>
+          <TextInput style={styles.name_pass} placeholder="nama"></TextInput>
           <TextInput style={styles.name_pass} placeholder="email"></TextInput>
           <TextInput
             style={styles.password}
-            placeholder="password"
+            placeholder="kata sandi"
             secureTextEntry={true}
           ></TextInput>
         </View>
         <View>
-          <Pressable style={styles.button}>
-            <Text style={styles.text}>Register</Text>
-          </Pressable>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.text}>Daftar</Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.signup}>
           <Text>Already have an account?</Text>
           <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-            <Text style={{ color: "purple", fontWeight: "bold" }}>
+            <Text style={{ color: "#8A4065", fontWeight: "bold" }}>
               {" "}
               Sign in here
             </Text>
@@ -64,12 +64,14 @@ const styles = StyleSheet.create({
   },
   welcomeText: {
     fontWeight: "bold",
+    color: "#8A4065",
     fontSize: 35,
     paddingTop: 20,
   },
   loginText: {
     fontSize: 15,
     paddingTop: 10,
+    color: "#8A4065",
   },
   username: {
     height: 40,
@@ -79,6 +81,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     borderRadius: 20,
+    borderColor: "#8A4065",
   },
   password: {
     height: 40,
@@ -87,6 +90,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     borderRadius: 20,
+    borderColor: "#8A4065",
   },
   button: {
     alignItems: "center",
@@ -95,7 +99,7 @@ const styles = StyleSheet.create({
     width: 150,
     height: 40,
     elevation: 3,
-    backgroundColor: "black",
+    backgroundColor: "#E1CBCF",
     marginTop: 10,
   },
   text: {
@@ -117,5 +121,9 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     borderRadius: 20,
+    borderColor: "#8A4065",
+    },
+  keyboard: {
+    flex: 1,
   },
 });

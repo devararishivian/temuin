@@ -1,8 +1,10 @@
+import { Icon } from "@rneui/base";
 import * as React from "react";
-import { Pressable, TextInput, TouchableOpacity, View } from "react-native";
+import { TextInput, TouchableOpacity, View } from "react-native";
 import { ImageBackground, ScrollView, Text, StyleSheet } from "react-native";
 
 export default function LoginScreen({ navigation }) {
+  const [show, setShow] = React.useState(false);
   return (
     <ScrollView
       contentContainerStyle={styles.container}
@@ -13,26 +15,31 @@ export default function LoginScreen({ navigation }) {
         style={styles.logo}
       ></ImageBackground>
       <Text style={styles.welcomeText}>Welcome Back!</Text>
-      <Text style={styles.loginText}>Login to your account</Text>
+      <Text style={styles.loginText}>Masuk ke akun anda</Text>
       <View>
-        <TextInput style={styles.username} placeholder="username"></TextInput>
+        <TextInput
+          style={styles.username}
+          placeholder="nama pengguna"
+        ></TextInput>
+      </View>
+      <View>
         <TextInput
           style={styles.password}
-          placeholder="password"
+          placeholder="kata sandi"
           secureTextEntry={true}
         ></TextInput>
       </View>
       <View>
-        <Pressable style={styles.button}>
-          <Text style={styles.text}>Sign In</Text>
-        </Pressable>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.text}>Masuk</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.signin}>
-        <Text>Don’t have an account?</Text>
+        <Text>Tidak punya akun?</Text>
         <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-          <Text style={{ color: "purple", fontWeight: "bold" }}>
+          <Text style={{ color: "#8A4065", fontWeight: "bold" }}>
             {" "}
-            Sign up here
+            Daftar sekarang
           </Text>
         </TouchableOpacity>
       </View>
@@ -51,12 +58,14 @@ const styles = StyleSheet.create({
   },
   welcomeText: {
     fontWeight: "bold",
+    color: "#8A4065",
     fontSize: 35,
     paddingTop: 20,
   },
   loginText: {
     fontSize: 15,
     paddingTop: 10,
+    color: "#8A4065",
   },
   username: {
     height: 40,
@@ -66,6 +75,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     borderRadius: 20,
+    borderColor: "#8A4065",
   },
   password: {
     height: 40,
@@ -74,6 +84,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     borderRadius: 20,
+    borderColor: "#8A4065",
   },
   button: {
     alignItems: "center",
@@ -82,7 +93,7 @@ const styles = StyleSheet.create({
     width: 150,
     height: 40,
     elevation: 3,
-    backgroundColor: "black",
+    backgroundColor: "#E1CBCF",
     marginTop: 10,
   },
   text: {
