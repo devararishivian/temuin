@@ -10,10 +10,19 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Formik } from 'formik';
+import * as Yup from 'yup';
+
+const schema = Yup.object().shape({
+  username: Yup.string().min(6).max(24).lowercase().trim().required(),
+  name: Yup.string().min(3).max(100).trim().required(),
+  email: Yup.string().email().lowercase().trim().required(),
+  password: Yup.string().min(6).max(16).trim().required(),
+});
 
 export default function RegisterScreen({ navigation }) {
   return (
     <Formik
+      validationSchema={schema}
       initialValues={{
         username: '',
         name: '',
@@ -22,7 +31,7 @@ export default function RegisterScreen({ navigation }) {
       }}
       onSubmit={values => console.log(values)}
     >
-      {({ handleChange, handleBlur, handleSubmit, values }) => (
+      {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.keyboard}
@@ -44,11 +53,13 @@ export default function RegisterScreen({ navigation }) {
                 onChangeText={handleChange('username')}
                 value={values.username}
               />
+              {errors.username ? (<Text style={{ color: 'red' }}>{errors.username}</Text>) : <></>}
               <TextInput
                 style={styles.name_pass}
                 placeholder="Nama"
                 onChangeText={handleChange('name')}
                 value={values.name}
+
               />
               <TextInput
                 style={styles.name_pass}
