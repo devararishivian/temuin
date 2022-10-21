@@ -50,13 +50,19 @@ export default function RegisterScreen({ navigation }) {
               <TextInput
                 style={styles.username}
                 placeholder="Nama Pengguna"
+                autoCorrect="false"
+                autoComplete="off"
+                autoCapitalize="none"
                 onChangeText={handleChange('username')}
                 value={values.username}
               />
-              {errors.username ? (<Text style={{ color: 'red' }}>{errors.username}</Text>) : <></>}
+              {errors.username ? (<Text style={styles.textInputErrorMessage}>{errors.username}</Text>) : <></>}
               <TextInput
                 style={styles.name_pass}
                 placeholder="Nama"
+                autoCorrect="false"
+                autoComplete="off"
+                autoCapitalize="none"
                 onChangeText={handleChange('name')}
                 value={values.name}
 
@@ -64,12 +70,18 @@ export default function RegisterScreen({ navigation }) {
               <TextInput
                 style={styles.name_pass}
                 placeholder="Email"
+                autoCorrect="false"
+                autoComplete="off"
+                autoCapitalize="none"
                 onChangeText={handleChange('email')}
                 value={values.email}
               />
               <TextInput
                 style={styles.password}
                 placeholder="Kata Sandi"
+                autoCorrect="false"
+                autoComplete="off"
+                autoCapitalize="none"
                 secureTextEntry={true}
                 onChangeText={handleChange('password')}
                 value={values.password}
@@ -169,4 +181,8 @@ const styles = StyleSheet.create({
   keyboard: {
     flex: 1,
   },
+  textInputErrorMessage: {
+    color: 'red',
+    paddingLeft: 20,
+  }
 });
