@@ -21,6 +21,27 @@ export async function register(requestBody) {
     return response;
 }
 
+export async function login(requestBody) {
+    let response = {
+        isError: false,
+        errorMessage: null,
+    };
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+        email: requestBody.email,
+        password: requestBody.password,
+    })
+
+    if (error) {
+        response.isError = true;
+        response.errorMessage = error.message;
+
+        return response;
+    }
+
+    return response;
+}
+
 export async function logout() {
     let response = {
         isError: false,
@@ -35,8 +56,6 @@ export async function logout() {
 
         return response;
     }
-
-    console.log('signout');
 
     return response;
 }

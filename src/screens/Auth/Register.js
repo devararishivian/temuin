@@ -22,8 +22,6 @@ const schema = Yup.object().shape({
   password: Yup.string().min(6).max(16).trim().required(),
 });
 
-
-
 export default function RegisterScreen({ navigation }) {
   const [isRegisterError, setIsRegisterError] = React.useState(false);
   const [registerErrMsg, setRegisterErrMsg] = React.useState('');
@@ -61,7 +59,7 @@ export default function RegisterScreen({ navigation }) {
       }}
       onSubmit={(values, { setSubmitting }) => handleRegister(values, setSubmitting)}
     >
-      {({ handleChange, handleBlur, handleSubmit, values, isSubmitting, errors }) => (
+      {({ handleChange, handleSubmit, values, isSubmitting, errors }) => (
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.keyboard}

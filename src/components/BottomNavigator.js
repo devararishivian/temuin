@@ -14,8 +14,9 @@ export default function BottomNavigator({ navigation }) {
         const { isError, errorMessage } = await AuthService.logout();
         if (!isError) {
             removeAuthData();
-            navigation.popToTop();
         }
+
+        return navigation.popToTop();
     }
 
     return (
