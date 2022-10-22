@@ -36,8 +36,9 @@ export default function RegisterScreen({ navigation }) {
     if (isError) {
       setIsRegisterError(true);
       setRegisterErrMsg(errorMessage);
+      setSubmitting(false);
 
-      Alert.alert(
+      return Alert.alert(
         "Terjadi Kesalahan",
         registerErrMsg,
         [
@@ -46,7 +47,7 @@ export default function RegisterScreen({ navigation }) {
       );
     }
 
-    setSubmitting(false);
+    navigation.popToTop('Timeline');
   };
 
   return (
