@@ -1,49 +1,113 @@
 import { Icon } from "@rneui/base";
 import * as React from "react";
-import { TextInput, TouchableOpacity, View } from "react-native";
-import { ImageBackground, ScrollView, Text, StyleSheet } from "react-native";
+import {
+  TextInput,
+  View,
+  ImageBackground,
+  ScrollView,
+  Text,
+  StyleSheet,
+  Pressable,
+  ActivityIndicator,
+  Alert
+} from "react-native";
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+import * as AuthService from '../../services/AuthService';
+
+const schema = Yup.object().shape({
+  email: Yup.string().required(),
+  password: Yup.string().required(),
+});
 
 export default function LoginScreen({ navigation }) {
-  const [show, setShow] = React.useState(false);
+  const [isLoginError, setIsLoginError] = React.useState(false);
+  const [loginErrMsg, setLoginErrMsg] = React.useState('');
+
+  const handleLogin = async (values, setSubmitting) => {
+    setSubmitting(true);
+
+    const { isError, errorMessage } = await AuthService.login(values);
+
+    if (isError) {
+      setIsLoginError(true);
+      setLoginErrMsg(errorMessage);
+      setSubmitting(false);
+
+      return Alert.alert(
+        "Terjadi Kesalahan",
+        loginErrMsg,
+        [
+          { text: "OK", onPress: () => setIsLoginError(false) }
+        ]
+      );
+    }
+
+    navigation.popToTop();
+  };
+
   return (
-    <ScrollView
-      contentContainerStyle={styles.container}
-      showsVerticalScrollIndicator={false}
+    <Formik
+      validationSchema={schema}
+      initialValues={{
+        email: '',
+        password: '',
+      }}
+      onSubmit={(values, { setSubmitting }) => handleLogin(values, setSubmitting)}
     >
-      <ImageBackground
-        source={require("../../../assets/main-logo.png")}
-        style={styles.logo}
-      ></ImageBackground>
-      <Text style={styles.welcomeText}>Welcome Back!</Text>
-      <Text style={styles.loginText}>Masuk ke akun anda</Text>
-      <View>
-        <TextInput
-          style={styles.username}
-          placeholder="nama pengguna"
-        ></TextInput>
-      </View>
-      <View>
-        <TextInput
-          style={styles.password}
-          placeholder="kata sandi"
-          secureTextEntry={true}
-        ></TextInput>
-      </View>
-      <View>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.text}>Masuk</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.signin}>
-        <Text>Tidak punya akun?</Text>
-        <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-          <Text style={{ color: "#8A4065", fontWeight: "bold" }}>
-            {" "}
-            Daftar sekarang
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+      {({ handleChange, handleSubmit, values, isSubmitting, errors }) => (
+        <ScrollView
+          contentContainerStyle={styles.container}
+          showsVerticalScrollIndicator={false}
+        >
+          <ImageBackground
+            source={require("../../../assets/main-logo.png")}
+            style={styles.logo}
+          ></ImageBackground>
+          <Text style={styles.welcomeText}>Welcome Back!</Text>
+          <Text style={styles.loginText}>Masuk ke akun anda</Text>
+          <View>
+            <TextInput
+              style={styles.name_pass}
+              placeholder="Email"
+              autoCorrect={false}
+              autoComplete="off"
+              autoCapitalize="none"
+              onChangeText={handleChange('email')}
+              value={values.email}
+            />
+            {errors.email ? (<Text style={styles.textInputErrorMessage}>{errors.email}</Text>) : <></>}
+          </View>
+          <View>
+            <TextInput
+              style={styles.password}
+              placeholder="Kata Sandi"
+              autoCorrect={false}
+              autoComplete="off"
+              autoCapitalize="none"
+              secureTextEntry={true}
+              onChangeText={handleChange('password')}
+              value={values.password}
+            />
+            {errors.password ? (<Text style={styles.textInputErrorMessage}>{errors.password}</Text>) : <></>}
+          </View>
+          <View>
+            <Pressable onPress={handleSubmit} disabled={isSubmitting} style={styles.button}>
+              <Text style={styles.text}>{isSubmitting ? <ActivityIndicator /> : 'Masuk'}</Text>
+            </Pressable>
+          </View>
+          <View style={styles.signin}>
+            <Text>Tidak punya akun?</Text>
+            <Pressable onPress={() => navigation.navigate("Register")}>
+              <Text style={{ color: "#8A4065", fontWeight: "bold" }}>
+                {" "}
+                Daftar sekarang
+              </Text>
+            </Pressable>
+          </View>
+        </ScrollView>
+      )}
+    </Formik>
   );
 }
 
@@ -66,6 +130,15 @@ const styles = StyleSheet.create({
     fontSize: 15,
     paddingTop: 10,
     color: "#8A4065",
+  },
+  name_pass: {
+    height: 40,
+    width: 300,
+    margin: 10,
+    padding: 10,
+    borderWidth: 1,
+    borderRadius: 20,
+    borderColor: "#8A4065",
   },
   username: {
     height: 40,
@@ -108,4 +181,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 10,
   },
+  textInputErrorMessage: {
+    color: 'red',
+    paddingLeft: 20,
+  }
 });
