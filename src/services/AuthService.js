@@ -21,6 +21,26 @@ export async function register(requestBody) {
     return response;
 }
 
+export async function logout() {
+    let response = {
+        isError: false,
+        errorMessage: null,
+    };
+
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+        response.isError = true;
+        response.errorMessage = error.message;
+
+        return response;
+    }
+
+    console.log('signout');
+
+    return response;
+}
+
 // async function insertUserData(requestBody) {
 //     let response = {
 //         isError: false,

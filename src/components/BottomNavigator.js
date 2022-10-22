@@ -1,10 +1,23 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Icon } from "@rneui/themed";
+import { Pressable } from 'react-native';
 import TimelineScreen from '../screens/App/Timeline';
+import * as AuthService from '../services/AuthService';
+import useAuthStore from '../store/index';
 
 const Tab = createBottomTabNavigator();
 
-export default function BottomNavigator() {
+export default function BottomNavigator({ navigation }) {
+    const removeAuthData = useAuthStore(state => state.removeAuthData);
+
+    const handleLogout = async () => {
+        const { isError, errorMessage } = await AuthService.logout();
+        if (!isError) {
+            removeAuthData();
+            navigation.popToTop();
+        }
+    }
+
     return (
         <Tab.Navigator
             initialRouteName="Timeline"
@@ -16,6 +29,12 @@ export default function BottomNavigator() {
                 name="Timeline"
                 component={TimelineScreen}
                 options={{
+                    headerTitle: 'Temuin',
+                    headerRight: () => (
+                        <Pressable onPress={handleLogout} style={{ marginRight: 15 }}>
+                            <Icon type='ant-design' name="logout" color="black" />
+                        </Pressable>
+                    ),
                     tabBarLabel: 'Beranda',
                     tabBarIcon: ({ color, size }) => (
                         <Icon type='feather' name='home' color={color} size={size} />
