@@ -7,6 +7,7 @@ import useAuthStore from './src/store/index'
 import LandingScreen from './src/screens/Auth/Landing';
 import LoginScreen from './src/screens/Auth/Login';
 import RegisterScreen from './src/screens/Auth/Register';
+import { supabase } from './src/lib/supabase';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,11 +29,25 @@ const AppScreen = () => {
 
 function App() {
   const authData = useAuthStore(state => state.authData);
+  const storeAuthData = useAuthStore(state => state.storeAuthData);
+
+  React.useEffect(() => {
+    async function getSession() {
+      const { data, error } = await supabase.auth.getSession();
+      if (!error) {
+        storeAuthData(data);
+      }
+    }
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      storeAuthData(session);
+    })
+  }, [])
 
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        {authData ? <AppScreen /> : <AuthScreen />}
+        {authData && authData.user ? <AppScreen /> : <AuthScreen />}
       </NavigationContainer>
     </SafeAreaProvider>
   );
