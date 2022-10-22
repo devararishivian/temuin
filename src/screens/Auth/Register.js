@@ -47,7 +47,7 @@ export default function RegisterScreen({ navigation }) {
       );
     }
 
-    navigation.popToTop('Timeline');
+    navigation.popToTop();
   };
 
   return (
