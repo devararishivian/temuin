@@ -7,7 +7,9 @@ import {
   ScrollView,
   Text,
   StyleSheet,
-  Pressable
+  Pressable,
+  ActivityIndicator,
+  Alert
 } from "react-native";
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -20,13 +22,29 @@ const schema = Yup.object().shape({
   password: Yup.string().min(6).max(16).trim().required(),
 });
 
+
+
 export default function RegisterScreen({ navigation }) {
+  const [isRegisterError, setIsRegisterError] = React.useState(false);
+  const [registerErrMsg, setRegisterErrMsg] = React.useState('');
+
   const handleRegister = async (values, setSubmitting) => {
     setSubmitting(true);
 
     const { isError, errorMessage } = await AuthService.register(values);
-    console.log(isError);
-    console.log(errorMessage);
+
+    if (isError) {
+      setIsRegisterError(true);
+      setRegisterErrMsg(errorMessage);
+
+      Alert.alert(
+        "Terjadi Kesalahan",
+        registerErrMsg,
+        [
+          { text: "OK", onPress: () => setIsRegisterError(false) }
+        ]
+      );
+    }
 
     setSubmitting(false);
   };
@@ -42,7 +60,7 @@ export default function RegisterScreen({ navigation }) {
       }}
       onSubmit={(values, { setSubmitting }) => handleRegister(values, setSubmitting)}
     >
-      {({ handleChange, handleBlur, handleSubmit, setSubmitting, values, isSubmitting, errors }) => (
+      {({ handleChange, handleBlur, handleSubmit, values, isSubmitting, errors }) => (
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.keyboard}
@@ -101,8 +119,8 @@ export default function RegisterScreen({ navigation }) {
               {errors.password ? (<Text style={styles.textInputErrorMessage}>{errors.password}</Text>) : <></>}
             </View>
             <View>
-              <Pressable onPress={handleSubmit} style={styles.button}>
-                <Text style={styles.text}>{isSubmitting ? 'Mendaftarkan...' : 'Daftar'}</Text>
+              <Pressable onPress={handleSubmit} disabled={isSubmitting} style={styles.button}>
+                <Text style={styles.text}>{isSubmitting ? <ActivityIndicator /> : 'Daftar'}</Text>
               </Pressable>
             </View>
             <View style={styles.signup}>
