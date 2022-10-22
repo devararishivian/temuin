@@ -7,11 +7,11 @@ import {
   ScrollView,
   Text,
   StyleSheet,
-  TouchableOpacity,
+  Pressable
 } from "react-native";
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { supabase } from '../../../lib/supabase';
+import * as AuthService from '../../services/AuthService';
 
 const schema = Yup.object().shape({
   username: Yup.string().min(6).max(24).lowercase().trim().required(),
@@ -22,18 +22,13 @@ const schema = Yup.object().shape({
 
 export default function RegisterScreen({ navigation }) {
   const handleRegister = async (values, setSubmitting) => {
-    const { data, error } = await supabase.auth.signUp({
-      email: values.email,
-      password: values.password,
-      options: {
-        data: {
-          username: values.username,
-          name: values.name,
-        }
-      }
-    })
-    console.log(data);
-    console.log(error);
+    setSubmitting(true);
+
+    const { isError, errorMessage } = await AuthService.register(values);
+    console.log(isError);
+    console.log(errorMessage);
+
+    setSubmitting(false);
   };
 
   return (
@@ -47,7 +42,7 @@ export default function RegisterScreen({ navigation }) {
       }}
       onSubmit={(values, { setSubmitting }) => handleRegister(values, setSubmitting)}
     >
-      {({ handleChange, handleBlur, handleSubmit, setSubmitting, values, errors }) => (
+      {({ handleChange, handleBlur, handleSubmit, setSubmitting, values, isSubmitting, errors }) => (
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.keyboard}
@@ -66,7 +61,7 @@ export default function RegisterScreen({ navigation }) {
               <TextInput
                 style={styles.username}
                 placeholder="Nama Pengguna"
-                autoCorrect="false"
+                autoCorrect={false}
                 autoComplete="off"
                 autoCapitalize="none"
                 onChangeText={handleChange('username')}
@@ -76,7 +71,7 @@ export default function RegisterScreen({ navigation }) {
               <TextInput
                 style={styles.name_pass}
                 placeholder="Nama"
-                autoCorrect="false"
+                autoCorrect={false}
                 autoComplete="off"
                 autoCapitalize="none"
                 onChangeText={handleChange('name')}
@@ -86,7 +81,7 @@ export default function RegisterScreen({ navigation }) {
               <TextInput
                 style={styles.name_pass}
                 placeholder="Email"
-                autoCorrect="false"
+                autoCorrect={false}
                 autoComplete="off"
                 autoCapitalize="none"
                 onChangeText={handleChange('email')}
@@ -96,7 +91,7 @@ export default function RegisterScreen({ navigation }) {
               <TextInput
                 style={styles.password}
                 placeholder="Kata Sandi"
-                autoCorrect="false"
+                autoCorrect={false}
                 autoComplete="off"
                 autoCapitalize="none"
                 secureTextEntry={true}
@@ -106,18 +101,18 @@ export default function RegisterScreen({ navigation }) {
               {errors.password ? (<Text style={styles.textInputErrorMessage}>{errors.password}</Text>) : <></>}
             </View>
             <View>
-              <TouchableOpacity onPress={handleSubmit} style={styles.button}>
-                <Text style={styles.text}>Daftar</Text>
-              </TouchableOpacity>
+              <Pressable onPress={handleSubmit} style={styles.button}>
+                <Text style={styles.text}>{isSubmitting ? 'Mendaftarkan...' : 'Daftar'}</Text>
+              </Pressable>
             </View>
             <View style={styles.signup}>
               <Text>Already have an account?</Text>
-              <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+              <Pressable onPress={() => navigation.navigate("Login")}>
                 <Text style={{ color: "#8A4065", fontWeight: "bold" }}>
                   {" "}
                   Sign in here
                 </Text>
-              </TouchableOpacity>
+              </Pressable>
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
