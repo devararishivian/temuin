@@ -1,7 +1,8 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Icon } from "@rneui/themed";
-import { Pressable } from 'react-native';
+import { Pressable,Text } from 'react-native';
 import TimelineScreen from '../screens/App/Timeline';
+import NewPostScreen from "../screens/App/NewPost";
 import * as AuthService from '../services/AuthService';
 import useAuthStore from '../store/index';
 
@@ -43,12 +44,18 @@ export default function BottomNavigator({ navigation }) {
                 }}
             />
             <Tab.Screen
-                name="NewPost"
-                component={TimelineScreen}
+                name="Post Baru"
+                component={NewPostScreen}
                 options={{
-                    tabBarLabel: 'Post Baru',
+                    headerTitle: 'Post Baru',
+                    headerRight: () => (
+                        <Pressable onPress={handleLogout} style={{ marginRight: 15 }}>
+                            <Text name="logout" color="black">POST</Text>
+                        </Pressable>
+                    ),
+                    tabBarLabel: 'Beranda',
                     tabBarIcon: ({ color, size }) => (
-                        <Icon type='feather' name='plus-circle' color={color} size={size} />
+                        <Icon type='feather' name='home' color={color} size={size} />
                     ),
                 }}
             />
