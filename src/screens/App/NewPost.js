@@ -10,14 +10,15 @@ import { Image, Button, CheckBox } from '@rneui/themed';
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
 import * as ImagePicker from 'expo-image-picker';
+import * as PostService from '../../services/PostService';
 
 const schema = Yup.object().shape({
     title: Yup.string().max(100).lowercase().trim().required(),
     description: Yup.string().trim().required(),
 });
 export default () => {
-    const [pic, SetPic] = React.useState('');
     const [image, setImage] = React.useState(null);
+    const [check1, setCheck1] = React.useState(false);
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -35,15 +36,40 @@ export default () => {
         }
     };
 
+    const handlePost = async (values, setSubmitting) => {
+        setSubmitting(true);
+        const requestBody={
+            title:values.title,
+            description:values.description,
+            is_looking_for:check1
+        }
+        const { isError, errorMessage } = await PostService.insertPostData(requestBody);
+        console.log(errorMessage);
+        if (isError) {
+          setSubmitting(false);
+    
+          return Alert.alert(
+            "Terjadi Kesalahan",
+            loginErrMsg,
+            [
+              { text: "OK", onPress: () => setIsLoginError(false) }
+            ]
+          );
+        }
+    
+        navigation.popToTop();
+      };
+
+
     return (
         <Formik
             validationSchema={schema}
             initialValues={{
                 title: '',
                 description: '',
-                is_looking_for: true,
+                is_looking_for: false,
             }}
-            onSubmit={(values, { setSubmitting }) => handleRegister(values, setSubmitting)}
+            onSubmit={(values, { setSubmitting }) => handlePost(values, setSubmitting)}
         >
             {({ handleChange, handleSubmit, setValues, values, isSubmitting, errors }) => (
 
@@ -60,8 +86,8 @@ export default () => {
                             autoCapitalize="none"
                             multiline={true}
                             numberOfLines={10}
-                            onChangeText={handleChange('description')}
-                            value={values.description}
+                            onChangeText={handleChange('title')}
+                            value={values.title}
                         />
                     </View>
                     <View>
@@ -80,9 +106,10 @@ export default () => {
                     <View>
                         <CheckBox
                             center
+                            style={styles.checkbox}
                             title="Click Here"
-                            checked={values.is_looking_for}
-                            onPress={() => setValues(!values.is_looking_for)} />
+                            checked={check1}
+                            onPress={() => setCheck1(!check1)} />
                     </View>
 
                     <View style={styles.viewUpload}>
@@ -119,6 +146,9 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         marginTop: 10,
+    },
+    checkbox:{
+        backgroundColor:"#8A4065"
     },
     buttonTitle: {
         color: 'white',
