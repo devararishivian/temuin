@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Icon } from "@rneui/themed";
-import { Pressable,Text } from 'react-native';
+import { Pressable, Text } from 'react-native';
 import TimelineScreen from '../screens/App/Timeline';
 import NewPostScreen from "../screens/App/NewPost";
 import * as AuthService from '../services/AuthService';
@@ -53,9 +53,9 @@ export default function BottomNavigator({ navigation }) {
                             <Text name="logout" color="black">POST</Text>
                         </Pressable>
                     ),
-                    tabBarLabel: 'Beranda',
+                    tabBarLabel: 'Post Baru',
                     tabBarIcon: ({ color, size }) => (
-                        <Icon type='feather' name='home' color={color} size={size} />
+                        <Icon type='feather' name='plus-circle' color={color} size={size} />
                     ),
                 }}
             />
