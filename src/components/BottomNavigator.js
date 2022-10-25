@@ -4,6 +4,7 @@ import { Pressable } from 'react-native';
 import TimelineScreen from '../screens/App/Timeline';
 import * as AuthService from '../services/AuthService';
 import useAuthStore from '../store/index';
+import ProfileScreen from '../screens/App/Profile';
 
 const Tab = createBottomTabNavigator();
 
@@ -54,7 +55,7 @@ export default function BottomNavigator({ navigation }) {
             />
             <Tab.Screen
                 name="Profile"
-                component={TimelineScreen}
+                component={ProfileScreen}
                 options={{
                     tabBarLabel: 'Profil',
                     tabBarIcon: ({ color, size }) => (
