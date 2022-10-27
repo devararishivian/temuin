@@ -1,4 +1,3 @@
-import { Button } from "@rneui/base";
 import * as React from "react";
 import {
   View,
@@ -7,11 +6,67 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
-  Pressable,
   FlatList,
+  SafeAreaView,
 } from "react-native";
 
 export default function ProfileScreen({ navigation }) {
+  const itemPost = [
+    {
+      id: 1,
+      name: "test 1",
+      image: require("../../../assets/listPosting-1.png"),
+    },
+    {
+      id: 2,
+      name: "test 2",
+      image: require("../../../assets/listPosting-1.png"),
+    },
+    {
+      id: 3,
+      name: "test 3",
+      image: require("../../../assets/listPosting-1.png"),
+    },
+    {
+      id: 4,
+      name: "test 4",
+      image: require("../../../assets/listPosting-1.png"),
+    },
+    {
+      id: 5,
+      name: "test 5",
+      image: require("../../../assets/listPosting-1.png"),
+    },
+    {
+      id: 6,
+      name: "test 6",
+      image: require("../../../assets/listPosting-1.png"),
+    },
+    {
+      id: 7,
+      name: "test 7",
+      image: require("../../../assets/listPosting-1.png"),
+    },
+    {
+      id: 8,
+      name: "test 8",
+      image: require("../../../assets/listPosting-1.png"),
+    },
+  ];
+
+  const oneItem = ({ item }) => (
+    <Image
+      style={{
+        width: 162,
+        height: 162,
+        marginLeft: 30,
+        marginTop: 20,
+        borderRadius: 8,
+      }}
+      source={item.image}
+    />
+  );
+
   return (
     <ScrollView style={{ backgroundColor: "white", height: "100%" }}>
       <View style={styles.container}>
@@ -19,7 +74,7 @@ export default function ProfileScreen({ navigation }) {
           style={styles.avatar}
           source={require("../../../assets/avatar-profile.png")}
         ></Image>
-        <Text style={styles.profileName}>Saman Brembo</Text>
+        <Text style={styles.profileName}>John Doe</Text>
         <View>
           <Text style={styles.description_post}>Post</Text>
           <Text style={styles.description_since}>Terdaftar Sejak</Text>
@@ -35,21 +90,16 @@ export default function ProfileScreen({ navigation }) {
         </TouchableOpacity>
       </View>
       <View style={styles.hairline} />
-      <View style={{ alignItems: "center", marginTop: 180 }}>
-        <Text
-          style={{
-            fontSize: 50,
-            letterSpacing: 2,
-            color: "#8A4065",
-            fontStyle: "italic",
-            marginLeft: 30,
-            marginRight: 30,
-          }}
-        >
-          "lanjut mene, ngasuh dulu"
-        </Text>
-        {/* <FlatList></FlatList> */}
-      </View>
+      <View style={{ alignItems: "center" }}></View>
+      <SafeAreaView style={styles.posting}>
+        <FlatList
+          numColumns={2}
+          horizontal={false}
+          data={itemPost}
+          renderItem={oneItem}
+          ListEmptyComponent={<Text>No Post</Text>}
+        />
+      </SafeAreaView>
     </ScrollView>
   );
 }
