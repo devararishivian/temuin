@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import BottomNavigator from './src/components/BottomNavigator';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -33,13 +33,15 @@ function App() {
   const authData = useAuthStore(state => state.authData);
   const storeAuthData = useAuthStore(state => state.storeAuthData);
 
-  React.useEffect(() => {
+  useEffect(() => {
     async function getSession() {
       const { data, error } = await supabase.auth.getSession();
-      if (!error) {
-        storeAuthData(data);
+      if (data && !error) {
+        storeAuthData(data.session);
       }
     }
+
+    getSession();
 
     supabase.auth.onAuthStateChange((_event, session) => {
       storeAuthData(session);
