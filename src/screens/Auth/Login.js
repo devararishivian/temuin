@@ -28,7 +28,7 @@ export default function LoginScreen({ navigation }) {
     setSubmitting(true);
 
     const { isError, errorMessage } = await AuthService.login(values);
-    console.log(errorMessage);
+    
     if (isError) {
       setIsLoginError(true);
       setLoginErrMsg(errorMessage);

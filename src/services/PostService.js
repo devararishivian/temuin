@@ -23,7 +23,6 @@ async function insertPostData(requestBody) {
     if (error) {
         response.isError = true;
         response.errorMessage = error.message;
-        console.log(error.message);
         return response;
     }
 
