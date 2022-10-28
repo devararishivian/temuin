@@ -7,6 +7,7 @@ import useAuthStore from './src/store/index'
 import LandingScreen from './src/screens/Auth/Landing';
 import LoginScreen from './src/screens/Auth/Login';
 import RegisterScreen from './src/screens/Auth/Register';
+import NewPostScreen from './src/screens/App/NewPost';
 import { supabase } from './src/lib/supabase';
 
 const Stack = createNativeStackNavigator();
@@ -17,6 +18,7 @@ const AuthScreen = () => {
       <Stack.Screen name="Landing" component={LandingScreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
+      <Stack.Screen name="NewPost" component={NewPostScreen}/>
     </Stack.Navigator>
   );
 }
