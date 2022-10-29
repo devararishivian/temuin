@@ -1,5 +1,3 @@
-import { Icon } from "@rneui/base";
-import * as React from "react";
 import {
   TextInput,
   View,
@@ -21,31 +19,6 @@ const schema = Yup.object().shape({
 });
 
 export default function LoginScreen({ navigation }) {
-  const [isLoginError, setIsLoginError] = React.useState(false);
-  const [loginErrMsg, setLoginErrMsg] = React.useState('');
-
-  const handleLogin = async (values, setSubmitting) => {
-    setSubmitting(true);
-
-    const { isError, errorMessage } = await AuthService.login(values);
-    
-    if (isError) {
-      setIsLoginError(true);
-      setLoginErrMsg(errorMessage);
-      setSubmitting(false);
-
-      return Alert.alert(
-        "Terjadi Kesalahan",
-        loginErrMsg,
-        [
-          { text: "OK", onPress: () => setIsLoginError(false) }
-        ]
-      );
-    }
-
-    navigation.popToTop();
-  };
-
   return (
     <Formik
       validationSchema={schema}
@@ -53,7 +26,25 @@ export default function LoginScreen({ navigation }) {
         email: '',
         password: '',
       }}
-      onSubmit={(values, { setSubmitting }) => handleLogin(values, setSubmitting)}
+      onSubmit={async (values, { setSubmitting }) => {
+        {
+          setSubmitting(true);
+
+          const { isError, errorMessage } = await AuthService.login(values);
+
+          if (isError) {
+            setSubmitting(false);
+
+            return Alert.alert(
+              "Terjadi Kesalahan",
+              errorMessage,
+              [
+                { text: "OK", onPress: () => { } }
+              ]
+            );
+          }
+        }
+      }}
     >
       {({ handleChange, handleSubmit, values, isSubmitting, errors }) => (
         <ScrollView

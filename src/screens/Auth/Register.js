@@ -47,8 +47,6 @@ export default function RegisterScreen({ navigation }) {
             ]
           );
         }
-
-        // navigation.popToTop();
       }}
     >
       {({ handleChange, handleSubmit, setFieldValue, values, isSubmitting, errors }) => (
