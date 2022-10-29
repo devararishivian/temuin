@@ -51,7 +51,7 @@ export default function RegisterScreen({ navigation }) {
         // navigation.popToTop();
       }}
     >
-      {({ handleChange, handleSubmit, values, isSubmitting, errors }) => (
+      {({ handleChange, handleSubmit, setFieldValue, values, isSubmitting, errors }) => (
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.keyboard}
@@ -73,7 +73,9 @@ export default function RegisterScreen({ navigation }) {
                 autoCorrect={false}
                 autoComplete="off"
                 autoCapitalize="none"
-                onChangeText={handleChange('username')}
+                onChangeText={(v) => {
+                  setFieldValue('username', v.toLowerCase());
+                }}
                 value={values.username}
               />
               {errors.username ? (<Text style={styles.textInputErrorMessage}>{errors.username}</Text>) : <></>}
@@ -93,7 +95,9 @@ export default function RegisterScreen({ navigation }) {
                 autoCorrect={false}
                 autoComplete="off"
                 autoCapitalize="none"
-                onChangeText={handleChange('email')}
+                onChangeText={(v) => {
+                  setFieldValue('email', v.toLowerCase());
+                }}
                 value={values.email}
               />
               {errors.email ? (<Text style={styles.textInputErrorMessage}>{errors.email}</Text>) : <></>}
