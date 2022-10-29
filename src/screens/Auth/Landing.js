@@ -14,22 +14,22 @@ export default function LandingScreen({ navigation }) {
         source={require("../../../assets/main-logo.png")}
         style={styles.logo}
       ></ImageBackground>
-      <Text style={styles.wellcomeText}>Wellcome to Temuin
+      <Text style={styles.welcomeText}>Selamat datang di Temuin
       </Text>
       <Text style={styles.descripton}>"Netizen Temuin siap bantu cari barang mu yang hilang"
       </Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate("Login")}
-        >
-          <Text style={styles.text}>Mulai</Text>
-        </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate("Login")}
+      >
+        <Text style={styles.text}>Mulai</Text>
+      </TouchableOpacity>
     </View>
   );
 }
 const styles = StyleSheet.create({
   container: {
-    marginTop : 120,
+    marginTop: 120,
     alignItems: "center",
   },
   logo: {
@@ -52,21 +52,21 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     color: "white",
   },
-  descripton:{
+  descripton: {
     fontSize: 20,
     letterSpacing: 0.25,
     color: "#8A4065",
-    textAlign:'center',
+    textAlign: 'center',
     marginLeft: 20,
     marginRight: 20,
     marginTop: 40,
     marginBottom: 40,
-    fontStyle:"italic",
+    fontStyle: "italic",
   },
-  wellcomeText :{
+  welcomeText: {
     fontWeight: "bold",
     color: "#8A4065",
-    fontSize: 40,
+    fontSize: 30,
     marginTop: 50,
   }
 });
