@@ -46,7 +46,7 @@ function App() {
     supabase.auth.onAuthStateChange((_event, session) => {
       storeAuthData(session);
     })
-  }, [])
+  }, []);
 
   return (
     <SafeAreaProvider>

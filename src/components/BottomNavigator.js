@@ -17,8 +17,6 @@ export default function BottomNavigator({ navigation }) {
         if (!isError) {
             removeAuthData();
         }
-
-        return navigation.popToTop();
     }
 
     return (
