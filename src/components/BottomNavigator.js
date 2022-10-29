@@ -46,7 +46,12 @@ export default function BottomNavigator({ navigation }) {
                 name="Post Baru"
                 component={NewPostScreen}
                 options={{
-                    headerTitle: 'Post Baru',
+                    headerTitle: 'Postingan Baru',
+                    headerLeft: () => (
+                        <Pressable style={{ marginLeft: 10 }}>
+                            <Icon type='feather' name="chevron-left" color="black" />
+                        </Pressable>
+                    ),
                     headerRight: () => (
                         <Pressable onPress={handleLogout} style={{ marginRight: 15 }}>
                             <Text name="logout" color="black">POST</Text>

@@ -16,7 +16,7 @@ const schema = Yup.object().shape({
     title: Yup.string().max(100).lowercase().trim().required(),
     description: Yup.string().trim().required(),
 });
-export default () => {
+export default function NewPostScreen() {
     const [image, setImage] = React.useState(null);
     const [check1, setCheck1] = React.useState(false);
 
@@ -38,27 +38,27 @@ export default () => {
 
     const handlePost = async (values, setSubmitting) => {
         setSubmitting(true);
-        const requestBody={
-            title:values.title,
-            description:values.description,
-            is_looking_for:check1
+        const requestBody = {
+            title: values.title,
+            description: values.description,
+            is_looking_for: check1
         }
         const { isError, errorMessage } = await PostService.insertPostData(requestBody);
         console.log(errorMessage);
         if (isError) {
-          setSubmitting(false);
-    
-          return Alert.alert(
-            "Terjadi Kesalahan",
-            loginErrMsg,
-            [
-              { text: "OK", onPress: () => setIsLoginError(false) }
-            ]
-          );
+            setSubmitting(false);
+
+            return Alert.alert(
+                "Terjadi Kesalahan",
+                loginErrMsg,
+                [
+                    { text: "OK", onPress: () => setIsLoginError(false) }
+                ]
+            );
         }
-    
+
         navigation.popToTop();
-      };
+    };
 
 
     return (
@@ -147,8 +147,8 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         marginTop: 10,
     },
-    checkbox:{
-        backgroundColor:"#8A4065"
+    checkbox: {
+        backgroundColor: "#8A4065"
     },
     buttonTitle: {
         color: 'white',
