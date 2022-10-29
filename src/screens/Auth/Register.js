@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
   KeyboardAvoidingView,
   TextInput,
@@ -16,38 +15,13 @@ import * as Yup from 'yup';
 import * as AuthService from '../../services/AuthService';
 
 const schema = Yup.object().shape({
-  username: Yup.string().min(6).max(24).lowercase().trim().required(),
-  name: Yup.string().min(3).max(100).trim().required(),
-  email: Yup.string().email().lowercase().trim().required(),
-  password: Yup.string().min(6).max(16).trim().required(),
+  username: Yup.string().min(6).max(24).required(),
+  name: Yup.string().min(3).max(100).required(),
+  email: Yup.string().email().required(),
+  password: Yup.string().min(6).max(16).required(),
 });
 
 export default function RegisterScreen({ navigation }) {
-  const [isRegisterError, setIsRegisterError] = React.useState(false);
-  const [registerErrMsg, setRegisterErrMsg] = React.useState('');
-
-  const handleRegister = async (values, setSubmitting) => {
-    setSubmitting(true);
-
-    const { isError, errorMessage } = await AuthService.register(values);
-
-    if (isError) {
-      setIsRegisterError(true);
-      setRegisterErrMsg(errorMessage);
-      setSubmitting(false);
-
-      return Alert.alert(
-        "Terjadi Kesalahan",
-        registerErrMsg,
-        [
-          { text: "OK", onPress: () => setIsRegisterError(false) }
-        ]
-      );
-    }
-
-    navigation.popToTop();
-  };
-
   return (
     <Formik
       validationSchema={schema}
@@ -57,7 +31,25 @@ export default function RegisterScreen({ navigation }) {
         email: '',
         password: '',
       }}
-      onSubmit={(values, { setSubmitting }) => handleRegister(values, setSubmitting)}
+      onSubmit={async (values, { setSubmitting }) => {
+        setSubmitting(true);
+
+        const { isError, errorMessage } = await AuthService.register(values);
+
+        if (isError) {
+          setSubmitting(false);
+
+          return Alert.alert(
+            "Terjadi Kesalahan",
+            errorMessage,
+            [
+              { text: "OK", onPress: () => { } }
+            ]
+          );
+        }
+
+        // navigation.popToTop();
+      }}
     >
       {({ handleChange, handleSubmit, values, isSubmitting, errors }) => (
         <KeyboardAvoidingView
@@ -72,7 +64,7 @@ export default function RegisterScreen({ navigation }) {
               source={require("../../../assets/main-logo.png")}
               style={styles.logo}
             ></ImageBackground>
-            <Text style={styles.welcomeText}>Welcome to Temuin!</Text>
+            <Text style={styles.welcomeText}>Selamat datang di Temuin !</Text>
             <Text style={styles.loginText}>Daftarkan diri anda</Text>
             <View>
               <TextInput
@@ -123,11 +115,11 @@ export default function RegisterScreen({ navigation }) {
               </Pressable>
             </View>
             <View style={styles.signup}>
-              <Text>Already have an account?</Text>
+              <Text>Sudah memiliki akun?</Text>
               <Pressable onPress={() => navigation.navigate("Login")}>
                 <Text style={{ color: "#8A4065", fontWeight: "bold" }}>
                   {" "}
-                  Sign in here
+                  Masuk
                 </Text>
               </Pressable>
             </View>
@@ -150,7 +142,7 @@ const styles = StyleSheet.create({
   welcomeText: {
     fontWeight: "bold",
     color: "#8A4065",
-    fontSize: 35,
+    fontSize: 28,
     paddingTop: 20,
   },
   loginText: {

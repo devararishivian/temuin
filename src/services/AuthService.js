@@ -1,14 +1,18 @@
 import { supabase } from '../lib/supabase';
+import { DEFAULT_RESPONSE as defaultResponse } from './Response';
 
 export async function register(requestBody) {
-    let response = {
-        isError: false,
-        errorMessage: null,
-    };
+    let response = defaultResponse;
 
     const { data, error } = await supabase.auth.signUp({
         email: requestBody.email,
-        password: requestBody.password
+        password: requestBody.password,
+        options: {
+            data: {
+                username: requestBody.username,
+                name: requestBody.name,
+            }
+        }
     })
 
     if (error) {
@@ -22,10 +26,7 @@ export async function register(requestBody) {
 }
 
 export async function login(requestBody) {
-    let response = {
-        isError: false,
-        errorMessage: null,
-    };
+    let response = defaultResponse;
 
     const { data, error } = await supabase.auth.signInWithPassword({
         email: requestBody.email,
@@ -43,10 +44,7 @@ export async function login(requestBody) {
 }
 
 export async function logout() {
-    let response = {
-        isError: false,
-        errorMessage: null,
-    };
+    let response = defaultResponse;
 
     const { error } = await supabase.auth.signOut();
 
