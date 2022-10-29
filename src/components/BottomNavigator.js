@@ -43,12 +43,12 @@ export default function BottomNavigator({ navigation }) {
                 }}
             />
             <Tab.Screen
-                name="Post Baru"
+                name="NewPost"
                 component={NewPostScreen}
-                options={{
+                options={({ route, navigation }) => ({
                     headerTitle: 'Postingan Baru',
                     headerLeft: () => (
-                        <Pressable style={{ marginLeft: 10 }}>
+                        <Pressable onPress={() => navigation.navigate('Timeline')} style={{ marginLeft: 10 }}>
                             <Icon type='feather' name="chevron-left" color="black" />
                         </Pressable>
                     ),
@@ -61,7 +61,10 @@ export default function BottomNavigator({ navigation }) {
                     tabBarIcon: ({ color, size }) => (
                         <Icon type='feather' name='plus-circle' color={color} size={size} />
                     ),
-                }}
+                    tabBarStyle: ((route) => {
+                        return { display: "none" };
+                    })(route),
+                })}
             />
             <Tab.Screen
                 name="Profile"
