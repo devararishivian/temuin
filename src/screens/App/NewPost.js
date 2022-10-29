@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import {
     TextInput,
     View,
@@ -6,22 +6,22 @@ import {
     Text,
     StyleSheet
 } from "react-native";
-import { Image, Button, CheckBox } from '@rneui/themed';
+import { Image, Button, CheckBox, Input } from '@rneui/themed';
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
 import * as ImagePicker from 'expo-image-picker';
 import * as PostService from '../../services/PostService';
 
 const schema = Yup.object().shape({
-    title: Yup.string().max(100).lowercase().trim().required(),
-    description: Yup.string().trim().required(),
+    title: Yup.string().max(100).required(),
+    description: Yup.string().required(),
 });
+
 export default function NewPostScreen() {
-    const [image, setImage] = React.useState(null);
-    const [check1, setCheck1] = React.useState(false);
+    const [image, setImage] = useState(null);
+    const [isLookingFor, setIsLookingFor] = useState(false);
 
     const pickImage = async () => {
-        // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
@@ -41,7 +41,7 @@ export default function NewPostScreen() {
         const requestBody = {
             title: values.title,
             description: values.description,
-            is_looking_for: check1
+            is_looking_for: isLookingFor
         }
         const { isError, errorMessage } = await PostService.insertPostData(requestBody);
         console.log(errorMessage);
@@ -60,62 +60,44 @@ export default function NewPostScreen() {
         navigation.popToTop();
     };
 
-
     return (
         <Formik
             validationSchema={schema}
             initialValues={{
                 title: '',
                 description: '',
-                is_looking_for: false,
+                isLookingFor: false,
             }}
             onSubmit={(values, { setSubmitting }) => handlePost(values, setSubmitting)}
         >
             {({ handleChange, handleSubmit, setValues, values, isSubmitting, errors }) => (
-
                 <ScrollView
                     contentContainerStyle={styles.container}
                     showsVerticalScrollIndicator={false}
                 >
-                    <View>
-                        <TextInput
-                            style={styles.judul_post}
-                            placeholder="Judul postingan"
-                            autoCorrect={false}
-                            autoComplete="off"
-                            autoCapitalize="none"
-                            multiline={true}
-                            numberOfLines={10}
-                            onChangeText={handleChange('title')}
-                            value={values.title}
-                        />
-                    </View>
-                    <View>
-                        <TextInput
-                            style={styles.deskripsi}
-                            placeholder="Deskripsi postingan"
-                            autoCorrect={false}
-                            autoComplete="off"
-                            autoCapitalize="none"
-                            multiline={true}
-                            numberOfLines={10}
-                            onChangeText={handleChange('description')}
-                            value={values.description}
-                        />
-                    </View>
-                    <View>
-                        <CheckBox
-                            center
-                            style={styles.checkbox}
-                            title="Click Here"
-                            checked={check1}
-                            onPress={() => setCheck1(!check1)} />
-                    </View>
-
-                    <View style={styles.viewUpload}>
-                        <Button color="error" title="Unggah Gambar" onPress={pickImage} />
-                        {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-                    </View>
+                    <Input
+                        placeholder='Judul Post'
+                        autoCorrect={false}
+                        autoComplete="off"
+                        multiline={true}
+                        onChangeText={handleChange('title')}
+                        value={values.title}
+                    />
+                    <Input
+                        placeholder='Deskripsi Post'
+                        autoCorrect={false}
+                        autoComplete="off"
+                        multiline={true}
+                        numberOfLines={10}
+                        onChangeText={handleChange('description')}
+                        value={values.description}
+                    />
+                    <CheckBox
+                        title="Click Here"
+                        checked={isLookingFor}
+                        onPress={() => setIsLookingFor(!isLookingFor)} />
+                    <Button color="error" title="Unggah Gambar" onPress={pickImage} />
+                    {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
                     {/* <View style={styles.button}>
                     <Button size="sm" title="Upload Image" type="clear" titleStyle={styles.buttonTitle} onPress={pickImage}/>
                 </View>
