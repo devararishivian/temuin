@@ -1,32 +1,24 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Icon } from "@rneui/themed";
+import { Icon, Dialog } from "@rneui/themed";
 import { Pressable, Text } from 'react-native';
 import TimelineScreen from '../screens/App/Timeline';
 import * as AuthService from '../services/AuthService';
 import ProfileScreen from '../screens/App/Profile';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import NewPostScreen from '../screens/App/Post/NewPost';
-import NewPostFormScreen from '../screens/App/Post/NewPostForm';
-import NewPostTypeSelectionScreen from '../screens/App/Post/NewPostTypeSelection';
 import useAuthStore from '../store/AuthStore';
 import usePostStore from '../store/PostStore';
+import { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
 
-function NewPostScreens() {
-    return (
-        <Stack.Navigator screenOptions={{ header: () => null }}>
-            <Stack.Screen name="NewPost" component={NewPostScreen} />
-            <Stack.Screen name="NewPostForm" component={NewPostFormScreen} />
-            <Stack.Screen name="NewPostTypeSelection" component={NewPostTypeSelectionScreen} />
-        </Stack.Navigator>
-    );
-}
-
-export default function BottomNavigator({ navigation }) {
+export default function BottomNavigator() {
+    const navigation = useNavigation();
     const removeAuthData = useAuthStore(state => state.removeAuthData);
+    const isUserHasSelectedPostType = usePostStore(state => state.isUserHasSelectedPostType);
     const resetAllNewPostData = usePostStore(state => state.resetAllNewPostData);
+
+    const [isNewPostBackDialogVisible, setIsNewPostBackDialogVisible] = useState(false);
 
     const handleLogout = async () => {
         const { isError, errorMessage } = await AuthService.logout();
@@ -35,69 +27,90 @@ export default function BottomNavigator({ navigation }) {
         }
     }
 
+    const toggleNewPostBack = () => {
+        setIsNewPostBackDialogVisible(!isNewPostBackDialogVisible);
+    };
+
+    const newPostBack = () => {
+        toggleNewPostBack();
+        resetAllNewPostData();
+        navigation.navigate('Timeline');
+    };
+
     return (
-        <Tab.Navigator
-            initialRouteName="Timeline"
-            screenOptions={{
-                tabBarActiveTintColor: '#e91e63',
-            }}
-        >
-            <Tab.Screen
-                name="Timeline"
-                component={TimelineScreen}
-                options={{
-                    headerTitle: 'Temuin',
-                    headerRight: () => (
-                        <Pressable onPress={handleLogout} style={{ marginRight: 15 }}>
-                            <Icon type='ant-design' name="logout" color="black" />
-                        </Pressable>
-                    ),
-                    tabBarLabel: 'Beranda',
-                    tabBarIcon: ({ color, size }) => (
-                        <Icon type='feather' name='home' color={color} size={size} />
-                    ),
-                }}
-            />
-            <Tab.Screen
-                name="NewPostTab"
-                component={NewPostScreens}
-                options={({ route, navigation }) => ({
-                    // TODO: Pindahkan header ini biar yang menghandle stack nya si NewPost
-                    headerTitle: 'Postingan Baru',
-                    headerLeft: () => (
-                        <Pressable
-                            onPress={() => {
-                                navigation.navigate('Timeline');
-                                resetAllNewPostData();
-                            }}
-                            style={{ marginLeft: 10 }}>
-                            <Icon type='feather' name="chevron-left" color="black" />
-                        </Pressable>
-                    ),
-                    headerRight: () => (
-                        <Pressable onPress={handleLogout} style={{ marginRight: 15 }}>
-                            <Text name="logout" style={{color: 'blue'}}>Bagikan</Text>
-                        </Pressable>
-                    ),
-                    tabBarLabel: 'Post Baru',
-                    tabBarIcon: ({ color, size }) => (
-                        <Icon type='feather' name='plus-circle' color={color} size={size} />
-                    ),
-                    tabBarStyle: ((route) => {
-                        return { display: "none" };
-                    })(route),
-                })}
-            />
-            <Tab.Screen
-                name="Profile"
-                component={ProfileScreen}
-                options={{
-                    tabBarLabel: 'Profil',
-                    tabBarIcon: ({ color, size }) => (
-                        <Icon type='feather' name='user' color={color} size={size} />
-                    ),
-                }}
-            />
-        </Tab.Navigator>
+        <>
+            <Dialog
+                isVisible={isNewPostBackDialogVisible}
+                onBackdropPress={toggleNewPostBack}
+            >
+                <Dialog.Title title="Peringatan" />
+                <Text>Apakah kamu ingin membatalkan post baru?</Text>
+                <Dialog.Actions>
+                    <Dialog.Button title="Ya" onPress={newPostBack} />
+                    <Dialog.Button title="Tidak" onPress={toggleNewPostBack} />
+                </Dialog.Actions>
+            </Dialog>
+            <Tab.Navigator
+                initialRouteName="Timeline"
+                screenOptions={{
+                    tabBarActiveTintColor: '#e91e63',
+                }}>
+                <Tab.Screen
+                    name="Timeline"
+                    component={TimelineScreen}
+                    options={{
+                        headerTitle: 'Temuin',
+                        headerRight: () => (
+                            <Pressable onPress={handleLogout} style={{ marginRight: 15 }}>
+                                <Icon type='ant-design' name="logout" color="black" />
+                            </Pressable>
+                        ),
+                        tabBarLabel: 'Beranda',
+                        tabBarIcon: ({ color, size }) => (
+                            <Icon type='feather' name='home' color={color} size={size} />
+                        ),
+                    }}
+                />
+                <Tab.Screen
+                    name="NewPostTab"
+                    component={NewPostScreen}
+                    options={{
+                        headerTitle: 'Postingan Baru',
+                        headerLeft: () => (
+                            <Pressable onPress={toggleNewPostBack} style={{ marginLeft: 10 }}>
+                                <Icon type='feather' name="chevron-left" color="black" />
+                            </Pressable>
+                        ),
+                        headerRight: () => (
+                            isUserHasSelectedPostType ?
+                                <Pressable style={{ marginRight: 15 }}>
+                                    <Text name="post" style={{ color: 'blue' }}>Bagikan</Text>
+                                </Pressable> : <></>
+                        ),
+                        tabBarLabel: 'Post Baru',
+                        tabBarIcon: ({ color, size }) => (
+                            <Icon type='feather' name='plus-circle' color={color} size={size} />
+                        ),
+                        tabBarStyle: { display: 'none' },
+                    }}
+                />
+                <Tab.Screen
+                    name="Profile"
+                    component={ProfileScreen}
+                    options={{
+                        headerTitle: 'Profil',
+                        headerRight: () => (
+                            <Pressable onPress={handleLogout} style={{ marginRight: 15 }}>
+                                <Icon type='ant-design' name="logout" color="black" />
+                            </Pressable>
+                        ),
+                        tabBarLabel: 'Profil',
+                        tabBarIcon: ({ color, size }) => (
+                            <Icon type='feather' name='user' color={color} size={size} />
+                        ),
+                    }}
+                />
+            </Tab.Navigator>
+        </>
     );
 }
