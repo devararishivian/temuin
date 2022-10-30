@@ -1,25 +1,33 @@
 import { useState } from "react";
 import {
-    TextInput,
     View,
     ScrollView,
     Text,
     StyleSheet
 } from "react-native";
-import { Image, Button, CheckBox, Input } from '@rneui/themed';
-import { Formik, Field } from 'formik';
+import { Image, Button, Input } from '@rneui/themed';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
 import * as ImagePicker from 'expo-image-picker';
 import * as PostService from '../../services/PostService';
+import { Picker } from '@react-native-picker/picker';
 
 const schema = Yup.object().shape({
     title: Yup.string().max(100).required(),
     description: Yup.string().required(),
 });
 
+
 export default function NewPostScreen() {
     const [image, setImage] = useState(null);
-    const [isLookingFor, setIsLookingFor] = useState(false);
+    const [isUserHasSelectedPostType, setIsUserHasSelectedPostType] = useState(false);
+    const [isLookingFor, setIsLookingFor] = useState(true);
+    const [selectedPostType, setSelectedPostType] = useState();
+
+    const POST_TYPE = {
+        KEHILANGAN: true,
+        MENEMUKAN: false,
+    };
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -60,53 +68,78 @@ export default function NewPostScreen() {
         navigation.popToTop();
     };
 
-    return (
-        <Formik
-            validationSchema={schema}
-            initialValues={{
-                title: '',
-                description: '',
-                isLookingFor: false,
-            }}
-            onSubmit={(values, { setSubmitting }) => handlePost(values, setSubmitting)}
-        >
-            {({ handleChange, handleSubmit, setValues, values, isSubmitting, errors }) => (
-                <ScrollView
-                    contentContainerStyle={styles.container}
-                    showsVerticalScrollIndicator={false}
+    function PostTypeSelection() {
+        return (
+            <View
+                style={{
+                    flexDirection: 'column',
+                    padding: 20,
+                }}
+            >
+                <Text>Jenis postingan apa yang ingin Kamu buat?</Text>
+                <Picker
+                    selectedValue="pilih"
+                    onValueChange={(itemValue, itemIndex) => {
+                        if (itemValue != 'pilih') {
+                            setSelectedPostType(itemValue);
+                            setIsUserHasSelectedPostType(true);
+                        }
+                    }}
                 >
-                    <Input
-                        placeholder='Judul Post'
-                        autoCorrect={false}
-                        autoComplete="off"
-                        multiline={true}
-                        onChangeText={handleChange('title')}
-                        value={values.title}
-                    />
-                    <Input
-                        placeholder='Deskripsi Post'
-                        autoCorrect={false}
-                        autoComplete="off"
-                        multiline={true}
-                        numberOfLines={10}
-                        onChangeText={handleChange('description')}
-                        value={values.description}
-                    />
-                    <CheckBox
-                        title="Click Here"
-                        checked={isLookingFor}
-                        onPress={() => setIsLookingFor(!isLookingFor)} />
-                    <Button color="error" title="Unggah Gambar" onPress={pickImage} />
-                    {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-                    {/* <View style={styles.button}>
-                    <Button size="sm" title="Upload Image" type="clear" titleStyle={styles.buttonTitle} onPress={pickImage}/>
-                </View>
-                <View style={styles.button}>
-                    <Button size="sm" title="Remove Image" type="clear" titleStyle={styles.buttonTitle} onPress={pickImage}/>
-                </View> */}
-                </ScrollView>
-            )}
-        </Formik>
+                    <Picker.Item label="Pilih" value='pilih' />
+                    <Picker.Item label="Kehilangan sesuatu" value={POST_TYPE.KEHILANGAN} />
+                    <Picker.Item label="Menemukan sesuatu" value={POST_TYPE.false} />
+                </Picker>
+            </View>
+        );
+    }
+
+    return (
+        <>
+            {!isUserHasSelectedPostType ? <PostTypeSelection></PostTypeSelection> :
+                <Formik
+                    validationSchema={schema}
+                    initialValues={{
+                        title: '',
+                        description: '',
+                    }}
+                    onSubmit={(values, { setSubmitting }) => handlePost(values, setSubmitting)}
+                >
+                    {({ handleChange, handleSubmit, setValues, values, isSubmitting, errors }) => (
+                        <ScrollView
+                            contentContainerStyle={styles.container}
+                            showsVerticalScrollIndicator={false}
+                        >
+                            <Input
+                                placeholder='Judul Post'
+                                autoCorrect={false}
+                                autoComplete="off"
+                                multiline={true}
+                                onChangeText={handleChange('title')}
+                                value={values.title}
+                            />
+                            <Input
+                                placeholder='Deskripsi Post'
+                                autoCorrect={false}
+                                autoComplete="off"
+                                multiline={true}
+                                numberOfLines={10}
+                                onChangeText={handleChange('description')}
+                                value={values.description}
+                            />
+                            <Button color="error" title="Unggah Gambar" onPress={pickImage} />
+                            {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+                            {/* <View style={styles.button}>
+                        <Button size="sm" title="Upload Image" type="clear" titleStyle={styles.buttonTitle} onPress={pickImage} />
+                    </View>
+                    <View style={styles.button}>
+                        <Button size="sm" title="Remove Image" type="clear" titleStyle={styles.buttonTitle} onPress={pickImage} />
+                    </View> */}
+                        </ScrollView>
+                    )}
+                </Formik>
+            }
+        </>
     );
 }
 
