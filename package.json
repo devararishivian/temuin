@@ -17,6 +17,7 @@
     "@rneui/base": "^4.0.0-rc.6",
     "@rneui/themed": "^4.0.0-rc.6",
     "@supabase/supabase-js": "^2.0.4",
+    "base64-arraybuffer": "^1.0.2",
     "expo": "~46.0.16",
     "expo-checkbox": "~2.2.0",
     "expo-image-picker": "^13.3.1",

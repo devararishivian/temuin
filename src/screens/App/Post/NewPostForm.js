@@ -7,6 +7,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as PostService from '../../../services/PostService';
 import usePostStore from '../../../store/PostStore';
 import { useNavigation } from '@react-navigation/native';
+import useAuthStore from "../../../store/AuthStore";
 
 const schema = Yup.object().shape({
     title: Yup.string().max(100).required(),
@@ -14,6 +15,7 @@ const schema = Yup.object().shape({
 });
 
 export default function NewPostFormScreen() {
+    const authData = useAuthStore(state => state.authData);
     const navigation = useNavigation();
     const selectedPostType = usePostStore(state => state.selectedPostType);
     const [image, setImage] = useState(null);
@@ -24,47 +26,12 @@ export default function NewPostFormScreen() {
             aspect: [4, 3],
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             quality: 0.8,
+            base64: true,
         });
 
         if (!result.cancelled) {
-            setImage(result.uri);
+            setImage(result);
         }
-    };
-
-    const handlePost = async (values, setSubmitting) => {
-        setSubmitting(true);
-
-        if (!image) {
-            return Alert.alert(
-                "Terjadi Kesalahan",
-                "Harap memilih gambar",
-                [
-                    { text: "OK", onPress: () => { } }
-                ]
-            );
-        }
-
-        const requestBody = {
-            title: values.title,
-            description: values.description,
-            isLookingFor: selectedPostType,
-            image: image,
-        };
-
-        const { isError, errorMessage } = await PostService.newPost(requestBody);
-        if (isError) {
-            setSubmitting(false);
-
-            return Alert.alert(
-                "Terjadi Kesalahan",
-                errorMessage,
-                [
-                    { text: "OK", onPress: () => { } }
-                ]
-            );
-        }
-
-        navigation.navigate('Timeline');
     };
 
     return (
@@ -74,9 +41,43 @@ export default function NewPostFormScreen() {
                 title: '',
                 description: '',
             }}
-            onSubmit={(values, { setSubmitting }) => handlePost(values, setSubmitting)}
+            onSubmit={async (values, { setSubmitting }) => {
+                setSubmitting(true);
+
+                if (!image) {
+                    return Alert.alert(
+                        "Terjadi Kesalahan",
+                        "Harap memilih gambar",
+                        [
+                            { text: "OK", onPress: () => { } }
+                        ]
+                    );
+                }
+
+                const requestBody = {
+                    title: values.title,
+                    description: values.description,
+                    isLookingFor: selectedPostType,
+                    image: image.base64,
+                };
+
+                const { isError, errorMessage } = await PostService.newPost(requestBody, authData);
+                if (isError) {
+                    setSubmitting(false);
+
+                    return Alert.alert(
+                        "Terjadi Kesalahan",
+                        errorMessage,
+                        [
+                            { text: "OK", onPress: () => { } }
+                        ]
+                    );
+                }
+
+                navigation.navigate('Timeline');
+            }}
         >
-            {({ handleChange, handleSubmit, setValues, values, isSubmitting, errors }) => (
+            {({ handleChange, handleSubmit, values, isSubmitting, errors }) => (
                 <ScrollView
                     contentContainerStyle={styles.container}
                     showsVerticalScrollIndicator={false}
@@ -116,7 +117,7 @@ export default function NewPostFormScreen() {
                         {
                             image ?
                                 <View style={{ paddingHorizontal: 10, paddingVertical: 40, alignItems: 'center' }}>
-                                    <Image source={{ uri: image }} style={{ width: 300, height: 300 }} />
+                                    <Image source={{ uri: image.uri }} style={{ width: 300, height: 300 }} />
                                 </View>
                                 : ''}
                     </View>

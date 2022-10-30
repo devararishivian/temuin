@@ -1,28 +1,41 @@
 import { supabase } from '../lib/supabase';
-import useAuthStore from '../store/AuthStore'
+import { DEFAULT_RESPONSE as defaultResponse } from './Response';
+import { decode } from 'base64-arraybuffer';
 
-async function newPost(requestBody) {
-    const authData = useAuthStore(state => state.authData);
+export async function newPost(requestBody, authData) {
+    let response = defaultResponse;
 
-    let response = {
-        isError: false,
-        errorMessage: null
-    };
+    const { data: storageData, error: storageError } = await supabase.storage
+        .from('image')
+        .upload(`post/post-${Date.now()}.png`, decode(requestBody.image), {
+            contentType: 'image/png',
+            upsert: true
+        });
 
-    const { data, error } = await supabase
+    console.log('storage error: ', storageError);
+    if (storageError) {
+        response.isError = true;
+        response.errorMessage = storageError.message;
+        return response;
+    }
+
+    console.log('storage data: ', storageData);
+
+    const { data: postData, error: postError } = await supabase
         .from('post')
         .insert([
             {
                 user_id: authData.user.id,
                 title: requestBody.title,
                 description: requestBody.description,
-                is_looking_for: requestBody.is_looking_for,
+                is_looking_for: requestBody.isLookingFor,
             },
         ]);
 
-    if (error) {
+    console.log('post error: ', postError);
+    if (postError) {
         response.isError = true;
-        response.errorMessage = error.message;
+        response.errorMessage = postError.message;
         return response;
     }
 
