@@ -1,7 +1,7 @@
 import { supabase } from '../lib/supabase';
 import useAuthStore from '../store/AuthStore'
 
-async function insertPostData(requestBody) {
+async function newPost(requestBody) {
     const authData = useAuthStore(state => state.authData);
 
     let response = {

@@ -15,7 +15,6 @@ const Tab = createBottomTabNavigator();
 export default function BottomNavigator() {
     const navigation = useNavigation();
     const removeAuthData = useAuthStore(state => state.removeAuthData);
-    const isUserHasSelectedPostType = usePostStore(state => state.isUserHasSelectedPostType);
     const resetAllNewPostData = usePostStore(state => state.resetAllNewPostData);
 
     const [isNewPostBackDialogVisible, setIsNewPostBackDialogVisible] = useState(false);
@@ -80,12 +79,6 @@ export default function BottomNavigator() {
                             <Pressable onPress={toggleNewPostBack} style={{ marginLeft: 10 }}>
                                 <Icon type='feather' name="chevron-left" color="black" />
                             </Pressable>
-                        ),
-                        headerRight: () => (
-                            isUserHasSelectedPostType ?
-                                <Pressable style={{ marginRight: 15 }}>
-                                    <Text name="post" style={{ color: 'blue' }}>Bagikan</Text>
-                                </Pressable> : <></>
                         ),
                         tabBarLabel: 'Post Baru',
                         tabBarIcon: ({ color, size }) => (

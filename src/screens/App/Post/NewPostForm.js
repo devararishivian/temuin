@@ -1,17 +1,21 @@
-import { useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { useState, useEffect } from "react";
+import { ScrollView, StyleSheet, Text, View, ActivityIndicator, Alert } from "react-native";
 import { Image, Button, Input } from '@rneui/themed';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import * as ImagePicker from 'expo-image-picker';
 import * as PostService from '../../../services/PostService';
+import usePostStore from '../../../store/PostStore';
+import { useNavigation } from '@react-navigation/native';
 
 const schema = Yup.object().shape({
     title: Yup.string().max(100).required(),
     description: Yup.string().required(),
 });
 
-export default function NewPostFormScreen({ navigation }) {
+export default function NewPostFormScreen() {
+    const navigation = useNavigation();
+    const selectedPostType = usePostStore(state => state.selectedPostType);
     const [image, setImage] = useState(null);
 
     const pickImage = async () => {
@@ -30,25 +34,37 @@ export default function NewPostFormScreen({ navigation }) {
     const handlePost = async (values, setSubmitting) => {
         setSubmitting(true);
 
+        if (!image) {
+            return Alert.alert(
+                "Terjadi Kesalahan",
+                "Harap memilih gambar",
+                [
+                    { text: "OK", onPress: () => { } }
+                ]
+            );
+        }
+
         const requestBody = {
             title: values.title,
             description: values.description,
-        }
+            isLookingFor: selectedPostType,
+            image: image,
+        };
 
-        const { isError, errorMessage } = await PostService.insertPostData(requestBody);
+        const { isError, errorMessage } = await PostService.newPost(requestBody);
         if (isError) {
             setSubmitting(false);
 
             return Alert.alert(
                 "Terjadi Kesalahan",
-                loginErrMsg,
+                errorMessage,
                 [
-                    { text: "OK", onPress: () => setIsLoginError(false) }
+                    { text: "OK", onPress: () => { } }
                 ]
             );
         }
 
-        navigation.popToTop();
+        navigation.navigate('Timeline');
     };
 
     return (
@@ -65,29 +81,36 @@ export default function NewPostFormScreen({ navigation }) {
                     contentContainerStyle={styles.container}
                     showsVerticalScrollIndicator={false}
                 >
-                    <Input
-                        placeholder='Judul Post'
-                        autoCorrect={false}
-                        autoComplete="off"
-                        multiline={true}
-                        onChangeText={handleChange('title')}
-                        value={values.title}
-                    />
-                    <Input
-                        placeholder='Deskripsi Post'
-                        autoCorrect={false}
-                        autoComplete="off"
-                        multiline={true}
-                        numberOfLines={10}
-                        onChangeText={handleChange('description')}
-                        value={values.description}
-                    />
+                    <View style={{ marginBottom: 15 }}>
+                        <Input
+                            placeholder='Judul Post'
+                            autoCorrect={false}
+                            autoComplete="off"
+                            multiline={true}
+                            onChangeText={handleChange('title')}
+                            value={values.title}
+                        />
+                        {errors.title ? (<Text style={styles.textInputErrorMessage}>{errors.title}</Text>) : <></>}
+                    </View>
+                    <View style={{ marginBottom: 15 }}>
+                        <Input
+                            placeholder='Deskripsi Post'
+                            autoCorrect={false}
+                            autoComplete="off"
+                            multiline={true}
+                            numberOfLines={10}
+                            onChangeText={handleChange('description')}
+                            value={values.description}
+                        />
+                        {errors.description ? (<Text style={styles.textInputErrorMessage}>{errors.description}</Text>) : <></>}
+                    </View>
                     <View style={{ paddingHorizontal: 10 }}>
                         <Text style={{ marginBottom: 10 }}>Pilih gambar untuk dibagikan</Text>
                         <Button
                             type="outline"
                             color="primary"
                             style={{ marginBottom: 20 }}
+                            size="sm"
                             title={!image ? 'Pilih dari galeri' : 'Ubah gambar'}
                             onPress={pickImage} />
                         {
@@ -97,12 +120,14 @@ export default function NewPostFormScreen({ navigation }) {
                                 </View>
                                 : ''}
                     </View>
-                    {/* <View style={styles.button}>
-                        <Button size="sm" title="Upload Image" type="clear" titleStyle={styles.buttonTitle} onPress={pickImage} />
-                    </View>
-                    <View style={styles.button}>
-                        <Button size="sm" title="Remove Image" type="clear" titleStyle={styles.buttonTitle} onPress={pickImage} />
-                    </View> */}
+                    <Button
+                        type="outline"
+                        color="primary"
+                        style={{ paddingVertical: 20 }}
+                        onPress={handleSubmit}
+                        disabled={isSubmitting}
+                        title={isSubmitting ? <ActivityIndicator /> : 'Bagikan'}
+                    />
                 </ScrollView>
             )}
         </Formik>
@@ -181,6 +206,6 @@ const styles = StyleSheet.create({
     },
     textInputErrorMessage: {
         color: 'red',
-        paddingLeft: 20,
+        paddingLeft: 10,
     }
 });
