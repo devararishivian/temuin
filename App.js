@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import BottomNavigator from './src/components/BottomNavigator';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import useAuthStore from './src/store/index';
+import useAuthStore from './src/store/AuthStore';
 import LandingScreen from './src/screens/Auth/Landing';
 import LoginScreen from './src/screens/Auth/Login';
 import RegisterScreen from './src/screens/Auth/Register';

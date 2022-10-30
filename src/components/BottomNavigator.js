@@ -4,7 +4,7 @@ import { Pressable, Text } from 'react-native';
 import TimelineScreen from '../screens/App/Timeline';
 import NewPostScreen from "../screens/App/NewPost";
 import * as AuthService from '../services/AuthService';
-import useAuthStore from '../store/index';
+import useAuthStore from '../store/AuthStore';
 import ProfileScreen from '../screens/App/Profile';
 
 const Tab = createBottomTabNavigator();

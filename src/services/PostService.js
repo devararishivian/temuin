@@ -1,5 +1,5 @@
 import { supabase } from '../lib/supabase';
-import useAuthStore from '../store/index'
+import useAuthStore from '../store/AuthStore'
 
 async function insertPostData(requestBody) {
     const authData = useAuthStore(state => state.authData);
