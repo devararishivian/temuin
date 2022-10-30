@@ -62,6 +62,7 @@ export default function BottomNavigator({ navigation }) {
                 name="NewPostTab"
                 component={NewPostScreens}
                 options={({ route, navigation }) => ({
+                    // TODO: Pindahkan header ini biar yang menghandle stack nya si NewPost
                     headerTitle: 'Postingan Baru',
                     headerLeft: () => (
                         <Pressable
@@ -75,7 +76,7 @@ export default function BottomNavigator({ navigation }) {
                     ),
                     headerRight: () => (
                         <Pressable onPress={handleLogout} style={{ marginRight: 15 }}>
-                            <Text name="logout" color="black">POST</Text>
+                            <Text name="logout" style={{color: 'blue'}}>Bagikan</Text>
                         </Pressable>
                     ),
                     tabBarLabel: 'Post Baru',
