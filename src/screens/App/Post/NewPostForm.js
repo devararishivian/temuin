@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { Image, Button, Input } from '@rneui/themed';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -16,13 +16,11 @@ export default function NewPostFormScreen({ navigation }) {
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             aspect: [4, 3],
             quality: 1,
         });
-
-        console.log(result);
 
         if (!result.cancelled) {
             setImage(result.uri);
@@ -84,8 +82,21 @@ export default function NewPostFormScreen({ navigation }) {
                         onChangeText={handleChange('description')}
                         value={values.description}
                     />
-                    <Button color="error" title="Unggah Gambar" onPress={pickImage} />
-                    {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+                    <View style={{ paddingHorizontal: 10 }}>
+                        <Text style={{ marginBottom: 10 }}>Pilih gambar untuk dibagikan</Text>
+                        <Button
+                            type="outline"
+                            color="primary"
+                            style={{ marginBottom: 20 }}
+                            title={!image ? 'Pilih dari galeri' : 'Ubah gambar'}
+                            onPress={pickImage} />
+                        {
+                            image ?
+                                <View style={{ paddingHorizontal: 10, paddingVertical: 40, alignItems: 'center' }}>
+                                    <Image source={{ uri: image }} style={{ width: 300, height: 300 }} />
+                                </View>
+                                : ''}
+                    </View>
                     {/* <View style={styles.button}>
                         <Button size="sm" title="Upload Image" type="clear" titleStyle={styles.buttonTitle} onPress={pickImage} />
                     </View>
@@ -100,12 +111,8 @@ export default function NewPostFormScreen({ navigation }) {
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: 0,
-        alignItems: "center",
-    },
-    logo: {
-        width: 200,
-        height: 185,
+        paddingTop: 20,
+        paddingHorizontal: 5,
     },
     viewUpload: {
         flex: 1,
@@ -116,9 +123,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         marginTop: 10,
-    },
-    checkbox: {
-        backgroundColor: "#8A4065"
     },
     buttonTitle: {
         color: 'white',
