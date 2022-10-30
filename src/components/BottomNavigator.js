@@ -2,15 +2,31 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Icon } from "@rneui/themed";
 import { Pressable, Text } from 'react-native';
 import TimelineScreen from '../screens/App/Timeline';
-import NewPostScreen from "../screens/App/NewPost";
 import * as AuthService from '../services/AuthService';
-import useAuthStore from '../store/AuthStore';
 import ProfileScreen from '../screens/App/Profile';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import NewPostScreen from '../screens/App/Post/NewPost';
+import NewPostFormScreen from '../screens/App/Post/NewPostForm';
+import NewPostTypeSelectionScreen from '../screens/App/Post/NewPostTypeSelection';
+import useAuthStore from '../store/AuthStore';
+import usePostStore from '../store/PostStore';
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+function NewPostScreens() {
+    return (
+        <Stack.Navigator screenOptions={{ header: () => null }}>
+            <Stack.Screen name="NewPost" component={NewPostScreen} />
+            <Stack.Screen name="NewPostForm" component={NewPostFormScreen} />
+            <Stack.Screen name="NewPostTypeSelection" component={NewPostTypeSelectionScreen} />
+        </Stack.Navigator>
+    );
+}
 
 export default function BottomNavigator({ navigation }) {
     const removeAuthData = useAuthStore(state => state.removeAuthData);
+    const resetAllNewPostData = usePostStore(state => state.resetAllNewPostData);
 
     const handleLogout = async () => {
         const { isError, errorMessage } = await AuthService.logout();
@@ -43,12 +59,17 @@ export default function BottomNavigator({ navigation }) {
                 }}
             />
             <Tab.Screen
-                name="NewPost"
-                component={NewPostScreen}
+                name="NewPostTab"
+                component={NewPostScreens}
                 options={({ route, navigation }) => ({
                     headerTitle: 'Postingan Baru',
                     headerLeft: () => (
-                        <Pressable onPress={() => navigation.navigate('Timeline')} style={{ marginLeft: 10 }}>
+                        <Pressable
+                            onPress={() => {
+                                navigation.navigate('Timeline');
+                                resetAllNewPostData();
+                            }}
+                            style={{ marginLeft: 10 }}>
                             <Icon type='feather' name="chevron-left" color="black" />
                         </Pressable>
                     ),
