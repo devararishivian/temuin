@@ -62,6 +62,8 @@ export default function NewPostFormScreen() {
                 };
 
                 const { isError, errorMessage } = await PostService.newPost(requestBody, authData);
+                // TODO: nilai dari isError ini nyantol. Jika percobaan newpost pertama gagal, lalu kedua berhasil, 
+                // maka isError tetap ada valuenya. Ini berlaku saat login dan register juga
                 if (isError) {
                     setSubmitting(false);
 

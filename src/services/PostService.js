@@ -33,7 +33,7 @@ export async function newPost(requestBody, authData) {
                 title: requestBody.title,
                 description: requestBody.description,
                 image: imagePublicURL.publicUrl,
-                is_looking_for: requestBody.isLookingFor,
+                is_looking_for: requestBody.isLookingFor, //TODO: jika is looking for false maka terjadi error
             },
         ]);
 
