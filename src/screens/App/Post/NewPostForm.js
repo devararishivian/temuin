@@ -16,10 +16,10 @@ export default function NewPostFormScreen({ navigation }) {
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             aspect: [4, 3],
-            quality: 1,
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            quality: 0.8,
         });
 
         if (!result.cancelled) {
