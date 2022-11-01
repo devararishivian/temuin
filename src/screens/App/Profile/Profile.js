@@ -3,9 +3,9 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
   ScrollView,
-  Image
+  Image,
+  Pressable
 } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 import * as UserService from '../../../services/UserService';
@@ -72,9 +72,9 @@ export default function ProfileScreen({ navigation }) {
         </View>
       </View>
       <View style={{ alignItems: "center", marginLeft: 30, marginRight: 30 }}>
-        <TouchableOpacity style={styles.button}>
+        <Pressable style={styles.button} onPress={() => navigation.push('EditProfile')}>
           <Text style={styles.buttonText}>Edit Profile</Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
       <View style={styles.hairline} />
       <View style={{ marginTop: 20, flex: 1 }}>
