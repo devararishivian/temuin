@@ -8,9 +8,9 @@ import {
   Image
 } from "react-native";
 import { FlashList } from "@shopify/flash-list";
-import * as UserService from '../../services/UserService';
-import * as PostService from '../../services/PostService';
-import useAuthStore from "../../store/AuthStore";
+import * as UserService from '../../../services/UserService';
+import * as PostService from '../../../services/PostService';
+import useAuthStore from "../../../store/AuthStore";
 import { format } from 'date-fns';
 import { id } from 'date-fns/locale';
 
@@ -54,7 +54,7 @@ export default function ProfileScreen({ navigation }) {
       <View style={{ flexDirection: "row" }}>
         <Image
           style={styles.avatar}
-          source={require("../../../assets/avatar-profile.png")}
+          source={require("../../../../assets/avatar-profile.png")}
         />
         <View style={{ flexDirection: "column", marginVertical: 50, marginHorizontal: 20 }}>
           <Text style={styles.profileName}>{name}</Text>
