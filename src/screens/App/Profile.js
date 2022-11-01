@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,50 +9,65 @@ import {
   FlatList,
   SafeAreaView,
 } from "react-native";
+import * as UserService from '../../services/UserService';
+
+const itemPost = [
+  {
+    id: 1,
+    name: "test 1",
+    image: require("../../../assets/listPosting-1.png"),
+  },
+  {
+    id: 2,
+    name: "test 2",
+    image: require("../../../assets/listPosting-1.png"),
+  },
+  {
+    id: 3,
+    name: "test 3",
+    image: require("../../../assets/listPosting-1.png"),
+  },
+  {
+    id: 4,
+    name: "test 4",
+    image: require("../../../assets/listPosting-1.png"),
+  },
+  {
+    id: 5,
+    name: "test 5",
+    image: require("../../../assets/listPosting-1.png"),
+  },
+  {
+    id: 6,
+    name: "test 6",
+    image: require("../../../assets/listPosting-1.png"),
+  },
+  {
+    id: 7,
+    name: "test 7",
+    image: require("../../../assets/listPosting-1.png"),
+  },
+  {
+    id: 8,
+    name: "test 8",
+    image: require("../../../assets/listPosting-1.png"),
+  },
+];
 
 export default function ProfileScreen({ navigation }) {
-  const itemPost = [
-    {
-      id: 1,
-      name: "test 1",
-      image: require("../../../assets/listPosting-1.png"),
-    },
-    {
-      id: 2,
-      name: "test 2",
-      image: require("../../../assets/listPosting-1.png"),
-    },
-    {
-      id: 3,
-      name: "test 3",
-      image: require("../../../assets/listPosting-1.png"),
-    },
-    {
-      id: 4,
-      name: "test 4",
-      image: require("../../../assets/listPosting-1.png"),
-    },
-    {
-      id: 5,
-      name: "test 5",
-      image: require("../../../assets/listPosting-1.png"),
-    },
-    {
-      id: 6,
-      name: "test 6",
-      image: require("../../../assets/listPosting-1.png"),
-    },
-    {
-      id: 7,
-      name: "test 7",
-      image: require("../../../assets/listPosting-1.png"),
-    },
-    {
-      id: 8,
-      name: "test 8",
-      image: require("../../../assets/listPosting-1.png"),
-    },
-  ];
+  const [name, setName] = useState('');
+  const [registeredAt, setRegisteredAt] = useState('');
+
+  useEffect(() => {
+    async function getUserData() {
+      const { data, isError, errorMessage } = await UserService.getUserData('asda');
+      if (data) {
+        console.log(data);
+      }
+    }
+
+    getUserData();
+  }, []);
 
   const oneItem = ({ item }) => (
     <Image
