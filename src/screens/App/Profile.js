@@ -11,6 +11,8 @@ import {
 } from "react-native";
 import * as UserService from '../../services/UserService';
 import useAuthStore from "../../store/AuthStore";
+import { format } from 'date-fns';
+import { id } from 'date-fns/locale';
 
 const itemPost = [
   {
@@ -58,6 +60,7 @@ const itemPost = [
 export default function ProfileScreen({ navigation }) {
   const authData = useAuthStore(state => state.authData);
   const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
   const [registeredAt, setRegisteredAt] = useState('');
 
   useEffect(() => {
@@ -65,7 +68,13 @@ export default function ProfileScreen({ navigation }) {
       const { data, isError, errorMessage } = await UserService.getUserData(authData.user.id);
       if (data) {
         setName(data[0].name);
-        setRegisteredAt(data[0].created_at);
+        setUsername(data[0].username);
+
+        let formattedRegisteredAt = format(new Date(data[0].created_at), "d MMMM yyyy", {
+          locale: id
+        });
+
+        setRegisteredAt(formattedRegisteredAt);
       }
     }
 
