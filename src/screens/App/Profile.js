@@ -10,6 +10,7 @@ import {
   SafeAreaView,
 } from "react-native";
 import * as UserService from '../../services/UserService';
+import useAuthStore from "../../store/AuthStore";
 
 const itemPost = [
   {
@@ -55,14 +56,16 @@ const itemPost = [
 ];
 
 export default function ProfileScreen({ navigation }) {
+  const authData = useAuthStore(state => state.authData);
   const [name, setName] = useState('');
   const [registeredAt, setRegisteredAt] = useState('');
 
   useEffect(() => {
     async function getUserData() {
-      const { data, isError, errorMessage } = await UserService.getUserData('asda');
+      const { data, isError, errorMessage } = await UserService.getUserData(authData.user.id);
       if (data) {
-        console.log(data);
+        setName(data[0].name);
+        setRegisteredAt(data[0].created_at);
       }
     }
 
@@ -89,14 +92,14 @@ export default function ProfileScreen({ navigation }) {
           style={styles.avatar}
           source={require("../../../assets/avatar-profile.png")}
         ></Image>
-        <Text style={styles.profileName}>John Doe</Text>
+        <Text style={styles.profileName}>{name}</Text>
         <View>
           <Text style={styles.description_post}>Post</Text>
           <Text style={styles.description_since}>Terdaftar Sejak</Text>
         </View>
         <View>
           <Text style={styles.postCount}>6</Text>
-          <Text style={styles.since}>13 Jan 2022</Text>
+          <Text style={styles.since}>{registeredAt}</Text>
         </View>
       </View>
       <View style={{ alignItems: "center", marginLeft: 30, marginRight: 30 }}>

@@ -6,7 +6,9 @@ export async function getUserData(id) {
 
     let { data: user, error } = await supabase
         .from('user')
-        .select('*');
+        .select('*')
+        .eq('id', id)
+        .limit(1);
 
     if (error) {
         response.isError = true;
