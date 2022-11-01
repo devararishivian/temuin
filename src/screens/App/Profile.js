@@ -96,12 +96,17 @@ export default function ProfileScreen({ navigation }) {
 
   return (
     <ScrollView style={{ backgroundColor: "white", height: "100%" }}>
-      <View style={styles.container}>
+      <View style={{ flexDirection: "row" }}>
         <Image
           style={styles.avatar}
           source={require("../../../assets/avatar-profile.png")}
-        ></Image>
-        <Text style={styles.profileName}>{name}</Text>
+        />
+        <View style={{ flexDirection: "column", marginVertical: 50, marginHorizontal: 20 }}>
+          <Text style={styles.profileName}>{name}</Text>
+          <Text>@{username}</Text>
+        </View>
+      </View>
+      <View style={styles.container}>
         <View>
           <Text style={styles.description_post}>Post</Text>
           <Text style={styles.description_since}>Terdaftar Sejak</Text>
@@ -146,13 +151,10 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "bold",
     letterSpacing: 1,
-    marginTop: 35,
-    marginLeft: 155,
-    position: "absolute",
     color: "#8A4065",
   },
   description_post: {
-    marginTop: 75,
+    // marginTop: 75,
     fontWeight: "450",
     marginLeft: 25,
     color: "#8A4065",
@@ -164,7 +166,7 @@ const styles = StyleSheet.create({
     color: "#8A4065",
   },
   postCount: {
-    marginTop: 75,
+    // marginTop: 75,
     marginLeft: 30,
     color: "#8A4065",
   },
