@@ -21,7 +21,6 @@ export default function TimelineScreen({ navigation }) {
     async function getAllPosts() {
       const { data, isError, errorMessage } = await PostService.getAllPost();
       if (data) {
-        console.log("data:: " + data);
         setPost(data);
       }
     }
