@@ -69,6 +69,23 @@ export async function getUserPost(userID) {
   response.data = posts;
   return response;
 }
+export async function getUserPostByPostId(postId) {
+  let response = defaultResponseWD;
+
+  let { data: posts, error } = await supabase
+    .from("post")
+    .select("*,user(name)")
+    .eq("id", postId);
+
+  if (error) {
+    response.isError = true;
+    response.errorMessage = error.message;
+    return response;
+  }
+
+  response.data = posts;
+  return response;
+}
 export async function getAllPost() {
   let response = defaultResponseWD;
 
