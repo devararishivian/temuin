@@ -4,7 +4,8 @@ import { Icon, Dialog } from "@rneui/themed";
 import { Pressable, Text } from "react-native";
 import TimelineScreen from "../screens/App/Timeline";
 import * as AuthService from "../services/AuthService";
-import ProfileScreen from "../screens/App/Profile";
+import ProfileScreen from "../screens/App/Profile/Profile";
+import EditProfileScreen from '../screens/App/Profile/Edit';
 import NewPostScreen from "../screens/App/Post/NewPost";
 import useAuthStore from "../store/AuthStore";
 import usePostStore from "../store/PostStore";
@@ -109,7 +110,7 @@ export default function BottomNavigator() {
         />
         <Tab.Screen
           name="Profile"
-          component={ProfileScreen}
+          component={ProfileScreens}
           options={{
             headerTitle: "Profil",
             headerRight: () => (
