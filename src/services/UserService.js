@@ -3,6 +3,7 @@ import {
     DEFAULT_RESPONSE_WITH_DATA as defaultResponseWD,
     DEFAULT_RESPONSE as defaultResponse
 } from './Response';
+import { decode } from "base64-arraybuffer";
 
 export async function getUserData(userID) {
     let response = defaultResponseWD;
@@ -47,7 +48,7 @@ export async function updateUserData(requestBody) {
         .from("image")
         .getPublicUrl(`avatar/${requestBody.userID}.png`);
 
-    const { data, error } = await supabase
+    const { data: updateData, error: updateError } = await supabase
         .from('user')
         .update({
             name: requestBody.name,
@@ -55,12 +56,11 @@ export async function updateUserData(requestBody) {
         })
         .eq('id', requestBody.userID)
 
-    if (error) {
+    if (updateError) {
         response.isError = true;
-        response.errorMessage = error.message;
+        response.errorMessage = updateError.message;
         return response;
     }
 
-    response.data = user;
     return response;
 }

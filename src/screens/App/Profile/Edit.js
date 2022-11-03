@@ -14,6 +14,7 @@ import { useState } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import * as UserService from "../../../services/UserService";
+import useAuthStore from "../../../store/AuthStore";
 
 const schema = Yup.object().shape({
   name: Yup.string().min(3).max(100).required(),
@@ -22,6 +23,7 @@ const schema = Yup.object().shape({
 export default function EditProfileScreen({ route, navigation }) {
   const { userID, currentName } = route.params;
   const [image, setImage] = useState(null);
+  const authData = useAuthStore((state) => state.authData);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -54,7 +56,7 @@ export default function EditProfileScreen({ route, navigation }) {
 
         const requestBody = {
           userID: userID,
-          title: values.name,
+          name: values.name,
           image: image.base64,
         };
 
