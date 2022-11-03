@@ -31,9 +31,18 @@ export async function insertComment(requestBody) {
 export async function getAllCommentByPostID(postID) {
   let response = defaultResponseWD;
 
-  let { data: posts, error } = await supabase
+  let { data, error } = await supabase
     .from("comment")
-    .select("*,user(name)")
+    .select(`
+      id,
+      user_id,
+      post_id,
+      comment,
+      created_at,
+      user (
+        name
+      )
+    `)
     .eq("post_id", postID)
     .order('created_at', { ascending: false });
 
@@ -43,6 +52,6 @@ export async function getAllCommentByPostID(postID) {
     return response;
   }
 
-  response.data = posts;
+  response.data = data;
   return response;
 }

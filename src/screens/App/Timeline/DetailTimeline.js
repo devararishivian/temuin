@@ -23,7 +23,7 @@ const schema = Yup.object().shape({
 export default function DetailTimelineScreen({ route, navigation }) {
   const { post } = route.params;
   const authData = useAuthStore((state) => state.authData);
-  const [postComments, setPostComments] = useState([]);
+  const [postComments, setPostComments] = useState();
 
   useEffect(() => {
     async function getAllCommentByPostID() {
@@ -129,7 +129,7 @@ export default function DetailTimelineScreen({ route, navigation }) {
                   <Text style={styles.cardText}>{item.comment}</Text>
                 </View>
               )}
-              ListEmptyComponent={<Text>No Post</Text>}
+              ListEmptyComponent={<Text>No Comment</Text>}
               estimatedItemSize={100}
             />
           </ScrollView>
