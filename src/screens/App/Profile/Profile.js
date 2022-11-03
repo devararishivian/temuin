@@ -110,7 +110,9 @@ export default function ProfileScreen({ navigation }) {
       <View style={{ alignItems: "center", marginLeft: 25, marginRight: 25 }}>
         <Pressable
           style={styles.button}
-          onPress={() => navigation.push("EditProfile")}
+          onPress={() => navigation.push("EditProfile",
+            { userID: authData.user.id, currentName: name }
+          )}
         >
           <Text style={styles.buttonText}>Edit Profile</Text>
         </Pressable>
