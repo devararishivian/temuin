@@ -58,7 +58,8 @@ export async function getUserPost(userID) {
   let { data: posts, error } = await supabase
     .from("post")
     .select("*")
-    .eq("user_id", userID);
+    .eq("user_id", userID)
+    .order('created_at', { ascending: false });
 
   if (error) {
     response.isError = true;
@@ -69,13 +70,14 @@ export async function getUserPost(userID) {
   response.data = posts;
   return response;
 }
-export async function getUserPostByPostId(postId) {
+
+export async function getUserPostByPostID(postID) {
   let response = defaultResponseWD;
 
   let { data: posts, error } = await supabase
     .from("post")
     .select("*,user(name)")
-    .eq("id", postId);
+    .eq("id", postID);
 
   if (error) {
     response.isError = true;
@@ -86,12 +88,14 @@ export async function getUserPostByPostId(postId) {
   response.data = posts;
   return response;
 }
+
 export async function getAllPost() {
   let response = defaultResponseWD;
 
   let { data: posts, error } = await supabase
     .from("post")
-    .select("*,user(name)");
+    .select("*,user(name)")
+    .order('created_at', { ascending: false });
 
   if (error) {
     response.isError = true;

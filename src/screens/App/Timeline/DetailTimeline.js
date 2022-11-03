@@ -1,6 +1,5 @@
-import { View } from "react-native";
 import { useState, useEffect } from "react";
-import * as React from "react";
+import { View } from "react-native";
 import {
   Pressable,
   Text,
@@ -8,8 +7,7 @@ import {
   StyleSheet,
   ScrollView,
   TextInput,
-  Alert,
-  div,
+  Alert
 } from "react-native";
 import { Icon, Divider } from "@rneui/themed";
 import { Formik } from "formik";
@@ -25,11 +23,11 @@ const schema = Yup.object().shape({
 export default function DetailTimelineScreen({ route, navigation }) {
   const { item } = route.params;
   const authData = useAuthStore((state) => state.authData);
-  const [comment, setComment] = React.useState([]);
+  const [comment, setComment] = useState([]);
+
   useEffect(() => {
     async function getAllCommentByPostId() {
-      const { data, isError, errorMessage } =
-        await CommentService.getAllCommentByPostId(item.id);
+      const { data, isError, errorMessage } = await CommentService.getAllCommentByPostID(item.id);
       if (data) {
         setComment(data);
       }
@@ -59,7 +57,7 @@ export default function DetailTimelineScreen({ route, navigation }) {
           setSubmitting(false);
 
           return Alert.alert("Terjadi Kesalahan", errorMessage, [
-            { text: "OK", onPress: () => {} },
+            { text: "OK", onPress: () => { } },
           ]);
         }
         setValues("comment", "");

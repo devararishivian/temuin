@@ -8,15 +8,15 @@ import {
   ScrollView,
   Text,
   Image,
-  TouchableOpacity,
-  FlatList,
+  TouchableOpacity
 } from "react-native";
 import { Icon } from "@rneui/themed";
 import { FlashList } from "@shopify/flash-list";
 import * as PostService from "../../../services/PostService";
 
 export default function TimelineScreen({ navigation }) {
-  const [post, setPost] = React.useState([]);
+  const [post, setPost] = useState([]);
+
   useEffect(() => {
     async function getAllPosts() {
       const { data, isError, errorMessage } = await PostService.getAllPost();
@@ -27,6 +27,7 @@ export default function TimelineScreen({ navigation }) {
 
     getAllPosts();
   }, []);
+
   return (
     <ScrollView style={{ backgroundColor: "#F8F9FD", height: "100%" }}>
       <FlashList
