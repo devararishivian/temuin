@@ -21,20 +21,21 @@ const schema = Yup.object().shape({
 });
 
 export default function DetailTimelineScreen({ route, navigation }) {
-  const { item } = route.params;
+  const { post } = route.params;
   const authData = useAuthStore((state) => state.authData);
-  const [comment, setComment] = useState([]);
+  const [postComments, setPostComments] = useState([]);
 
   useEffect(() => {
-    async function getAllCommentByPostId() {
-      const { data, isError, errorMessage } = await CommentService.getAllCommentByPostID(item.id);
+    async function getAllCommentByPostID() {
+      const { data, isError, errorMessage } = await CommentService.getAllCommentByPostID(post.id);
       if (data) {
-        setComment(data);
+        setPostComments(data);
       }
     }
 
-    getAllCommentByPostId();
+    getAllCommentByPostID();
   }, []);
+
   return (
     <Formik
       validationSchema={schema}
@@ -45,7 +46,7 @@ export default function DetailTimelineScreen({ route, navigation }) {
         setSubmitting(true);
         const requestBody = {
           userId: authData.user.id,
-          postId: item.id,
+          postId: post.id,
           comment: values.comment,
         };
 
@@ -85,8 +86,8 @@ export default function DetailTimelineScreen({ route, navigation }) {
                 style={styles.avatar}
                 source={require("../../../../assets/avatar-profile.png")}
               />
-              <Text style={{ paddingLeft: 6 }}>{item.user.name}</Text>
-              {item.is_looking_for ? (
+              <Text style={{ paddingLeft: 6 }}>{post.user.name}</Text>
+              {post.is_looking_for ? (
                 <Icon
                   style={{ marginLeft: "auto" }}
                   type="antdesign"
@@ -102,14 +103,14 @@ export default function DetailTimelineScreen({ route, navigation }) {
                 />
               )}
             </View>
-            <Text style={styles.cardText}>{item.title}</Text>
-            <Image style={styles.cardImage} source={{ uri: item.image }} />
-            <Text style={styles.cardText}>{item.description}</Text>
+            <Text style={styles.cardText}>{post.title}</Text>
+            <Image style={styles.cardImage} source={{ uri: post.image }} />
+            <Text style={styles.cardText}>{post.description}</Text>
             <Divider width={4} />
             <FlashList
               numColumns={1}
               horizontal={false}
-              data={comment}
+              data={postComments}
               renderItem={({ item }) => (
                 <View style={styles.container}>
                   <View

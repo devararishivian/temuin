@@ -69,7 +69,7 @@ export default function TimelineScreen({ navigation }) {
               <Text style={styles.cardText}>{item.title}</Text>
               <Pressable
                 style={styles.button}
-                onPress={() => navigation.push("DetailTimeline", { item })}
+                onPress={() => navigation.push("DetailTimeline", { post: item })}
               >
                 <Text style={styles.buttonText}>Detail Informasi</Text>
                 <Icon type="ionicon" name="ios-open-outline"></Icon>
