@@ -9,6 +9,7 @@ import ProfileScreen from "../screens/App/Profile/Profile";
 import EditProfileScreen from "../screens/App/Profile/Edit";
 import NewPostScreen from "../screens/App/Post/NewPost";
 import useAuthStore from "../store/AuthStore";
+import useUserStore from "../store/UserStore";
 import usePostStore from "../store/PostStore";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -36,6 +37,7 @@ const TimelineScreens = () => {
 export default function BottomNavigator() {
   const navigation = useNavigation();
   const removeAuthData = useAuthStore((state) => state.removeAuthData);
+  const removeUserData = useUserStore((state) => state.removeUserData);
   const resetAllNewPostData = usePostStore(
     (state) => state.resetAllNewPostData
   );
@@ -47,6 +49,7 @@ export default function BottomNavigator() {
     const { isError, errorMessage } = await AuthService.logout();
     if (!isError) {
       removeAuthData();
+      removeUserData();
     }
   };
 
