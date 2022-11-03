@@ -60,6 +60,7 @@ export default function RegisterScreen({ navigation }) {
           <View
             contentContainerStyle={styles.container}
             showsVerticalScrollIndicator={false}
+            style={styles.container}
           >
             <ImageBackground
               source={require("../../../assets/register-screen.png")}
@@ -182,6 +183,7 @@ const styles = StyleSheet.create({
     // paddingTop: 100,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "#AE3012",
   },
   logo: {
     width: "100%",
