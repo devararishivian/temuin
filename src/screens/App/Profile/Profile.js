@@ -5,33 +5,39 @@ import {
   StyleSheet,
   ScrollView,
   Image,
-  Pressable
+  Pressable,
 } from "react-native";
 import { FlashList } from "@shopify/flash-list";
-import * as UserService from '../../../services/UserService';
-import * as PostService from '../../../services/PostService';
+import * as UserService from "../../../services/UserService";
+import * as PostService from "../../../services/PostService";
 import useAuthStore from "../../../store/AuthStore";
-import { format } from 'date-fns';
-import { id } from 'date-fns/locale';
+import { format } from "date-fns";
+import { id } from "date-fns/locale";
 
 export default function ProfileScreen({ navigation }) {
-  const authData = useAuthStore(state => state.authData);
+  const authData = useAuthStore((state) => state.authData);
 
-  const [name, setName] = useState('');
-  const [username, setUsername] = useState('');
-  const [registeredAt, setRegisteredAt] = useState('');
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
+  const [registeredAt, setRegisteredAt] = useState("");
   const [posts, setPost] = useState();
 
   useEffect(() => {
     async function getUserData() {
-      const { data, isError, errorMessage } = await UserService.getUserData(authData.user.id);
+      const { data, isError, errorMessage } = await UserService.getUserData(
+        authData.user.id
+      );
       if (data) {
         setName(data[0].name);
         setUsername(data[0].username);
 
-        let formattedRegisteredAt = format(new Date(data[0].created_at), "d MMMM yyyy", {
-          locale: id
-        });
+        let formattedRegisteredAt = format(
+          new Date(data[0].created_at),
+          "d MMMM yyyy",
+          {
+            locale: id,
+          }
+        );
 
         setRegisteredAt(formattedRegisteredAt);
       }
@@ -40,7 +46,9 @@ export default function ProfileScreen({ navigation }) {
     getUserData();
 
     async function getUserPosts() {
-      const { data, isError, errorMessage } = await PostService.getUserPost(authData.user.id);
+      const { data, isError, errorMessage } = await PostService.getUserPost(
+        authData.user.id
+      );
       if (data) {
         setPost(data);
       }
@@ -51,14 +59,42 @@ export default function ProfileScreen({ navigation }) {
 
   return (
     <ScrollView style={{ backgroundColor: "white", height: "100%" }}>
-      <View style={{ flexDirection: "row" }}>
-        <Image
-          style={styles.avatar}
-          source={require("../../../../assets/avatar-profile.png")}
-        />
-        <View style={{ flexDirection: "column", marginVertical: 50, marginHorizontal: 20 }}>
+      <View>
+        <View
+          style={{
+            width: "100%",
+            backgroundColor: "#FED386",
+            height: 150,
+            borderBottomRightRadius: "300%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <View
+            style={{
+              height: 70,
+              width: 70,
+              backgroundColor: "#AE3012",
+              borderRadius: 15,
+              marginTop: 120,
+            }}
+          ></View>
+          <View></View>
+          {/* <Image
+            style={styles.avatar}
+            source={require("../../../../assets/avatar-profile.png")}
+          /> */}
+        </View>
+
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: 25,
+          }}
+        >
           <Text style={styles.profileName}>{name}</Text>
-          <Text>@{username}</Text>
+          <Text style={{ color: "#AE3012", fontSize: "15" }}>@{username}</Text>
         </View>
       </View>
       <View style={styles.container}>
@@ -71,13 +107,16 @@ export default function ProfileScreen({ navigation }) {
           <Text style={styles.since}>{registeredAt}</Text>
         </View>
       </View>
-      <View style={{ alignItems: "center", marginLeft: 30, marginRight: 30 }}>
-        <Pressable style={styles.button} onPress={() => navigation.push('EditProfile')}>
+      <View style={{ alignItems: "center", marginLeft: 25, marginRight: 25 }}>
+        <Pressable
+          style={styles.button}
+          onPress={() => navigation.push("EditProfile")}
+        >
           <Text style={styles.buttonText}>Edit Profile</Text>
         </Pressable>
       </View>
       <View style={styles.hairline} />
-      <View style={{ marginTop: 20, flex: 1 }}>
+      <View style={{ marginTop: 25, flex: 1 }}>
         <FlashList
           numColumns={2}
           horizontal={false}
@@ -89,7 +128,7 @@ export default function ProfileScreen({ navigation }) {
                 height: 145,
                 borderRadius: 8,
                 marginLeft: 25,
-                marginBottom: 30
+                marginBottom: 30,
               }}
               source={{ uri: item.image }}
             />
@@ -105,67 +144,68 @@ export default function ProfileScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
+    marginTop: 25,
   },
   avatar: {
     height: 100,
     width: 100,
-    marginTop: 30,
-    marginLeft: 30,
-    padding: 10,
+    marginTop: 200,
+    // marginLeft: 30,
+    // padding: 10,
   },
   profileName: {
-    fontSize: 25,
-    fontWeight: "bold",
-    letterSpacing: 1,
-    color: "#8A4065",
+    fontSize: 30,
+    fontWeight: "800",
+    letterSpacing: 2,
+    color: "#AE3012",
   },
   description_post: {
     // marginTop: 75,
-    fontWeight: "450",
+    fontWeight: "500",
     marginLeft: 25,
-    color: "#8A4065",
+    color: "#AE3012",
   },
   description_since: {
     marginTop: 10,
-    fontWeight: "450",
+    fontWeight: "500",
     marginLeft: 25,
-    color: "#8A4065",
+    color: "#AE3012",
   },
   postCount: {
     // marginTop: 75,
     marginLeft: 30,
-    color: "#8A4065",
+    color: "#AE3012",
   },
   since: {
     marginTop: 10,
     marginLeft: 30,
-    color: "#8A4065",
+    color: "#AE3012",
   },
   button: {
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 5,
+    borderRadius: 10,
     width: "100%",
     height: 40,
     elevation: 3,
-    backgroundColor: "#E1CBCF",
-    marginTop: 30,
+    backgroundColor: "#FED386",
+    marginTop: 25,
   },
   buttonText: {
     fontSize: 16,
     lineHeight: 21,
-    fontWeight: "600",
+    fontWeight: "bold",
     letterSpacing: 0.5,
-    color: "#8A4065",
+    color: "#AE3012",
   },
   hairline: {
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: "#8A4065",
-    marginTop: 30,
-    marginLeft: 30,
-    marginRight: 30,
-    height: 2,
-    backgroundColor: "#8A4065",
+    borderColor: "#AE3012",
+    marginTop: 25,
+    // marginLeft: 25,
+    // marginRight: 25,
+    height: 1,
+    backgroundColor: "#AE3012",
     borderRadius: 5,
   },
 });
