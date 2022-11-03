@@ -7,14 +7,17 @@ import {
   StyleSheet,
   ScrollView,
   TextInput,
-  Alert
+  Alert,
+  ActivityIndicator,
 } from "react-native";
-import { Icon, Divider } from "@rneui/themed";
+import { Icon, Divider, Badge } from "@rneui/themed";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { FlashList } from "@shopify/flash-list";
 import * as CommentService from "../../../services/CommentService";
 import useAuthStore from "../../../store/AuthStore";
+import { format } from "date-fns";
+import { id } from "date-fns/locale";
 
 const schema = Yup.object().shape({
   comment: Yup.string().required(),
@@ -27,9 +30,29 @@ export default function DetailTimelineScreen({ route, navigation }) {
 
   useEffect(() => {
     async function getAllCommentByPostID() {
-      const { data, isError, errorMessage } = await CommentService.getAllCommentByPostID(post.id);
+      const { data, isError, errorMessage } =
+        await CommentService.getAllCommentByPostID(post.id);
       if (data) {
-        setPostComments(data);
+        let formatedData = [];
+        data.forEach((element) => {
+          let formattedCommentTime = format(
+            new Date(element.created_at),
+            "d MMMM yyyy HH:mm:ss",
+            {
+              locale: id,
+            }
+          );
+          formatedData.push({
+            comment: element.comment,
+            created_at: formattedCommentTime,
+            id: element.id,
+            post_id: element.post_id,
+            user: { name: element.user.name },
+            user_id: element.user_id,
+          });
+        });
+
+        setPostComments(formatedData);
       }
     }
 
@@ -58,7 +81,7 @@ export default function DetailTimelineScreen({ route, navigation }) {
           setSubmitting(false);
 
           return Alert.alert("Terjadi Kesalahan", errorMessage, [
-            { text: "OK", onPress: () => { } },
+            { text: "OK", onPress: () => {} },
           ]);
         }
         setValues("comment", "");
@@ -74,7 +97,7 @@ export default function DetailTimelineScreen({ route, navigation }) {
         errors,
       }) => (
         <View>
-          <ScrollView style={{ backgroundColor: "#F8F9FD", height: "90%" }}>
+          <ScrollView style={{ backgroundColor: "#F8F9FD", height: "93%" }}>
             <View
               style={{
                 flexDirection: "row",
@@ -88,18 +111,16 @@ export default function DetailTimelineScreen({ route, navigation }) {
               />
               <Text style={{ paddingLeft: 6 }}>{post.user.name}</Text>
               {post.is_looking_for ? (
-                <Icon
+                <Badge
                   style={{ marginLeft: "auto" }}
-                  type="antdesign"
-                  name="questioncircle"
-                  color="black"
+                  value="Kehilangan"
+                  status="warning"
                 />
               ) : (
-                <Icon
+                <Badge
                   style={{ marginLeft: "auto" }}
-                  type="ionicon"
-                  name="information-circle"
-                  color="black"
+                  value="Menemukan"
+                  status="primary"
                 />
               )}
             </View>
@@ -113,20 +134,36 @@ export default function DetailTimelineScreen({ route, navigation }) {
               data={postComments}
               renderItem={({ item }) => (
                 <View style={styles.container}>
+                  <Image
+                    style={styles.avatar}
+                    source={require("../../../../assets/avatar-profile.png")}
+                  />
                   <View
                     style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      marginTop: 5,
+                      flexDirection: "column",
+                      backgroundColor: "#EAEAEA",
+                      marginLeft: 5,
+                      width: "88%",
                     }}
                   >
-                    <Image
-                      style={styles.avatar}
-                      source={require("../../../../assets/avatar-profile.png")}
-                    />
                     <Text style={{ paddingLeft: 6 }}>{item.user.name}</Text>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <Text style={styles.cardText}>{item.comment}</Text>
+                      <View
+                        style={{
+                          alignItems: "flex-end",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <Text style={styles.dateText}>{item.created_at}</Text>
+                      </View>
+                    </View>
                   </View>
-                  <Text style={styles.cardText}>{item.comment}</Text>
                 </View>
               )}
               ListEmptyComponent={<Text>No Comment</Text>}
@@ -156,13 +193,11 @@ export default function DetailTimelineScreen({ route, navigation }) {
               disabled={isSubmitting}
               style={styles.button}
             >
-              <Icon type="feather" name="send" color="black" />
+              <Text style={styles.text}>
+                {isSubmitting ? <ActivityIndicator /> : "Kirim"}
+              </Text>
             </Pressable>
           </View>
-
-          <Pressable onPress={() => navigation.goBack()}>
-            <Text>Cancel</Text>
-          </Pressable>
         </View>
       )}
     </Formik>
@@ -184,8 +219,17 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 16,
   },
+  dateText: {
+    fontSize: 9,
+  },
   comment: {
-    width: "93%",
+    width: "90%",
     height: 50,
+    alignItems: "center",
+  },
+  text: {},
+  container: {
+    flexDirection: "row",
+    marginTop: 10,
   },
 });

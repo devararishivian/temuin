@@ -8,9 +8,9 @@ import {
   ScrollView,
   Text,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
-import { Icon } from "@rneui/themed";
+import { Icon, Badge } from "@rneui/themed";
 import { FlashList } from "@shopify/flash-list";
 import * as PostService from "../../../services/PostService";
 
@@ -50,18 +50,16 @@ export default function TimelineScreen({ navigation }) {
                 />
                 <Text style={{ paddingLeft: 6 }}>{item.user.name}</Text>
                 {item.is_looking_for ? (
-                  <Icon
+                  <Badge
                     style={{ marginLeft: "auto" }}
-                    type="antdesign"
-                    name="questioncircle"
-                    color="black"
+                    value="Kehilangan"
+                    status="warning"
                   />
                 ) : (
-                  <Icon
+                  <Badge
                     style={{ marginLeft: "auto" }}
-                    type="ionicon"
-                    name="information-circle"
-                    color="black"
+                    value="Menemukan"
+                    status="primary"
                   />
                 )}
               </View>
@@ -69,7 +67,9 @@ export default function TimelineScreen({ navigation }) {
               <Text style={styles.cardText}>{item.title}</Text>
               <Pressable
                 style={styles.button}
-                onPress={() => navigation.push("DetailTimeline", { post: item })}
+                onPress={() =>
+                  navigation.push("DetailTimeline", { post: item })
+                }
               >
                 <Text style={styles.buttonText}>Detail Informasi</Text>
                 <Icon type="ionicon" name="ios-open-outline"></Icon>
