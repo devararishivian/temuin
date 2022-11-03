@@ -120,7 +120,7 @@ export default function BottomNavigator() {
         <Tab.Screen
           name="Profile"
           component={ProfileScreens}
-          options={({ navigation, route }) => ({
+          options={{
             headerTitle: "Profil",
             headerRight: () => (
               <Pressable onPress={handleLogout} style={{ marginRight: 15 }}>
@@ -131,7 +131,7 @@ export default function BottomNavigator() {
             tabBarIcon: ({ color, size }) => (
               <Icon type="feather" name="user" color={color} size={size} />
             ),
-          })}
+          }}
         />
       </Tab.Navigator>
     </>

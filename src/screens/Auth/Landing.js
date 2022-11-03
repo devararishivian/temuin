@@ -11,12 +11,28 @@ export default function LandingScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require("../../../assets/main-logo.png")}
+        source={require("../../../assets/landing-screen.png")}
         style={styles.logo}
-      ></ImageBackground>
-      <Text style={styles.welcomeText}>Selamat datang di Temuin
-      </Text>
-      <Text style={styles.descripton}>"Netizen Temuin siap bantu cari barang mu yang hilang"
+      >
+        <View
+          style={{
+            width: "100%",
+            height: "100%",
+            justifyContent: "flex-end",
+            alignItems: "center",
+          }}
+        >
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate("Login")}
+          >
+            <Text style={styles.text}>MULAI</Text>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
+      <Text style={styles.welcomeText}>Selamat datang di Temuin</Text>
+      <Text style={styles.descripton}>
+        "Netizen Temuin siap bantu cari barang mu yang hilang"
       </Text>
       <TouchableOpacity
         style={styles.button}
@@ -29,34 +45,35 @@ export default function LandingScreen({ navigation }) {
 }
 const styles = StyleSheet.create({
   container: {
-    marginTop: 120,
+    // marginTop: 120,
     alignItems: "center",
+    justifyContent: "center",
   },
   logo: {
-    width: 250,
-    height: 225,
+    width: "100%",
+    height: "100%",
   },
   button: {
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 50,
-    width: 150,
+    borderRadius: 10,
+    width: 200,
     height: 60,
-    elevation: 3,
-    backgroundColor: "#E1CBCF",
-    marginTop: 10,
+    // elevation: 3,
+    backgroundColor: "#FFE3B2",
+    marginBottom: 50,
   },
   text: {
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: 22,
+    fontWeight: "800",
     letterSpacing: 1,
-    color: "white",
+    color: "#AE3012",
   },
   descripton: {
     fontSize: 20,
     letterSpacing: 0.25,
     color: "#8A4065",
-    textAlign: 'center',
+    textAlign: "center",
     marginLeft: 20,
     marginRight: 20,
     marginTop: 40,
@@ -68,5 +85,5 @@ const styles = StyleSheet.create({
     color: "#8A4065",
     fontSize: 30,
     marginTop: 50,
-  }
+  },
 });

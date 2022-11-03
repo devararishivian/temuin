@@ -8,11 +8,11 @@ import {
   StyleSheet,
   Pressable,
   ActivityIndicator,
-  Alert
+  Alert,
 } from "react-native";
-import { Formik } from 'formik';
-import * as Yup from 'yup';
-import * as AuthService from '../../services/AuthService';
+import { Formik } from "formik";
+import * as Yup from "yup";
+import * as AuthService from "../../services/AuthService";
 
 const schema = Yup.object().shape({
   username: Yup.string().min(6).max(24).required(),
@@ -26,10 +26,10 @@ export default function RegisterScreen({ navigation }) {
     <Formik
       validationSchema={schema}
       initialValues={{
-        username: '',
-        name: '',
-        email: '',
-        password: '',
+        username: "",
+        name: "",
+        email: "",
+        password: "",
       }}
       onSubmit={async (values, { setSubmitting }) => {
         setSubmitting(true);
@@ -39,93 +39,139 @@ export default function RegisterScreen({ navigation }) {
         if (isError) {
           setSubmitting(false);
 
-          return Alert.alert(
-            "Terjadi Kesalahan",
-            errorMessage,
-            [
-              { text: "OK", onPress: () => { } }
-            ]
-          );
+          return Alert.alert("Terjadi Kesalahan", errorMessage, [
+            { text: "OK", onPress: () => {} },
+          ]);
         }
       }}
     >
-      {({ handleChange, handleSubmit, setFieldValue, values, isSubmitting, errors }) => (
+      {({
+        handleChange,
+        handleSubmit,
+        setFieldValue,
+        values,
+        isSubmitting,
+        errors,
+      }) => (
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.keyboard}
         >
-          <ScrollView
+          <View
             contentContainerStyle={styles.container}
             showsVerticalScrollIndicator={false}
+            style={styles.container}
           >
             <ImageBackground
-              source={require("../../../assets/main-logo.png")}
+              source={require("../../../assets/register-screen.png")}
               style={styles.logo}
-            ></ImageBackground>
-            <Text style={styles.welcomeText}>Selamat datang di Temuin !</Text>
-            <Text style={styles.loginText}>Daftarkan diri anda</Text>
-            <View>
-              <TextInput
-                style={styles.username}
-                placeholder="Nama Pengguna"
-                autoCorrect={false}
-                autoComplete="off"
-                autoCapitalize="none"
-                onChangeText={(v) => {
-                  setFieldValue('username', v.toLowerCase());
+            >
+              <View
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100%",
+                  width: "100%",
                 }}
-                value={values.username}
-              />
-              {errors.username ? (<Text style={styles.textInputErrorMessage}>{errors.username}</Text>) : <></>}
-              <TextInput
-                style={styles.name_pass}
-                placeholder="Nama"
-                autoCorrect={false}
-                autoComplete="off"
-                autoCapitalize="none"
-                onChangeText={handleChange('name')}
-                value={values.name}
-              />
-              {errors.name ? (<Text style={styles.textInputErrorMessage}>{errors.name}</Text>) : <></>}
-              <TextInput
-                style={styles.name_pass}
-                placeholder="Email"
-                autoCorrect={false}
-                autoComplete="off"
-                autoCapitalize="none"
-                onChangeText={(v) => {
-                  setFieldValue('email', v.toLowerCase());
-                }}
-                value={values.email}
-              />
-              {errors.email ? (<Text style={styles.textInputErrorMessage}>{errors.email}</Text>) : <></>}
-              <TextInput
-                style={styles.password}
-                placeholder="Kata Sandi"
-                autoCorrect={false}
-                autoComplete="off"
-                autoCapitalize="none"
-                secureTextEntry={true}
-                onChangeText={handleChange('password')}
-                value={values.password}
-              />
-              {errors.password ? (<Text style={styles.textInputErrorMessage}>{errors.password}</Text>) : <></>}
-            </View>
-            <View>
-              <Pressable onPress={handleSubmit} disabled={isSubmitting} style={styles.button}>
-                <Text style={styles.text}>{isSubmitting ? <ActivityIndicator /> : 'Daftar'}</Text>
-              </Pressable>
-            </View>
-            <View style={styles.signup}>
-              <Text>Sudah memiliki akun?</Text>
-              <Pressable onPress={() => navigation.navigate("Login")}>
-                <Text style={{ color: "#8A4065", fontWeight: "bold" }}>
-                  {" "}
-                  Masuk
-                </Text>
-              </Pressable>
-            </View>
-          </ScrollView>
+              >
+                {/* <Text style={styles.welcomeText}>
+                  Selamat datang di Temuin !
+                </Text> */}
+                {/* <Text style={styles.loginText}>Daftarkan diri anda</Text> */}
+                <View>
+                  <TextInput
+                    style={styles.username}
+                    placeholder="Nama Pengguna"
+                    autoCorrect={false}
+                    autoComplete="off"
+                    autoCapitalize="none"
+                    onChangeText={(v) => {
+                      setFieldValue("username", v.toLowerCase());
+                    }}
+                    value={values.username}
+                  />
+                  {errors.username ? (
+                    <Text style={styles.textInputErrorMessage}>
+                      {errors.username}
+                    </Text>
+                  ) : (
+                    <></>
+                  )}
+                  <TextInput
+                    style={styles.name_pass}
+                    placeholder="Nama"
+                    autoCorrect={false}
+                    autoComplete="off"
+                    autoCapitalize="none"
+                    onChangeText={handleChange("name")}
+                    value={values.name}
+                  />
+                  {errors.name ? (
+                    <Text style={styles.textInputErrorMessage}>
+                      {errors.name}
+                    </Text>
+                  ) : (
+                    <></>
+                  )}
+                  <TextInput
+                    style={styles.name_pass}
+                    placeholder="Email"
+                    autoCorrect={false}
+                    autoComplete="off"
+                    autoCapitalize="none"
+                    onChangeText={(v) => {
+                      setFieldValue("email", v.toLowerCase());
+                    }}
+                    value={values.email}
+                  />
+                  {errors.email ? (
+                    <Text style={styles.textInputErrorMessage}>
+                      {errors.email}
+                    </Text>
+                  ) : (
+                    <></>
+                  )}
+                  <TextInput
+                    style={styles.password}
+                    placeholder="Kata Sandi"
+                    autoCorrect={false}
+                    autoComplete="off"
+                    autoCapitalize="none"
+                    secureTextEntry={true}
+                    onChangeText={handleChange("password")}
+                    value={values.password}
+                  />
+                  {errors.password ? (
+                    <Text style={styles.textInputErrorMessage}>
+                      {errors.password}
+                    </Text>
+                  ) : (
+                    <></>
+                  )}
+                </View>
+                <View>
+                  <Pressable
+                    onPress={handleSubmit}
+                    disabled={isSubmitting}
+                    style={styles.button}
+                  >
+                    <Text style={styles.text}>
+                      {isSubmitting ? <ActivityIndicator /> : "Daftar"}
+                    </Text>
+                  </Pressable>
+                </View>
+                <View style={styles.signup}>
+                  <Text style={{ color: "#AE3012" }}>Sudah punya akun ?</Text>
+                  <Pressable onPress={() => navigation.navigate("Login")}>
+                    <Text style={{ color: "#FFE3B2", fontWeight: "bold" }}>
+                      {" "}
+                      Masuk
+                    </Text>
+                  </Pressable>
+                </View>
+              </View>
+            </ImageBackground>
+          </View>
         </KeyboardAvoidingView>
       )}
     </Formik>
@@ -134,12 +180,14 @@ export default function RegisterScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 100,
+    // paddingTop: 100,
     alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#AE3012",
   },
   logo: {
-    width: 200,
-    height: 185,
+    width: "100%",
+    height: "100%",
   },
   welcomeText: {
     fontWeight: "bold",
@@ -155,30 +203,32 @@ const styles = StyleSheet.create({
   username: {
     height: 40,
     width: 300,
-    marginTop: 50,
+    marginTop: 100,
     margin: 10,
     padding: 10,
-    borderWidth: 1,
-    borderRadius: 20,
-    borderColor: "#8A4065",
+    // borderWidth: 1,
+    borderRadius: 10,
+    // borderColor: "#FFE3B2",
+    backgroundColor: "#FFE3B2",
   },
   password: {
     height: 40,
     width: 300,
     margin: 10,
     padding: 10,
-    borderWidth: 1,
-    borderRadius: 20,
-    borderColor: "#8A4065",
+    // borderWidth: 1,
+    borderRadius: 10,
+    // borderColor: "#8A4065",
+    backgroundColor: "#FFE3B2",
   },
   button: {
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 50,
+    borderRadius: 10,
     width: 150,
     height: 40,
     elevation: 3,
-    backgroundColor: "#E1CBCF",
+    backgroundColor: "white",
     marginTop: 10,
   },
   text: {
@@ -186,7 +236,7 @@ const styles = StyleSheet.create({
     lineHeight: 21,
     fontWeight: "bold",
     letterSpacing: 0.25,
-    color: "white",
+    color: "#AE3012",
   },
   signup: {
     flexDirection: "row",
@@ -198,15 +248,16 @@ const styles = StyleSheet.create({
     width: 300,
     margin: 10,
     padding: 10,
-    borderWidth: 1,
-    borderRadius: 20,
-    borderColor: "#8A4065",
+    // borderWidth: 1,
+    borderRadius: 10,
+    // borderColor: "#8A4065",
+    backgroundColor: "#FFE3B2",
   },
   keyboard: {
     flex: 1,
   },
   textInputErrorMessage: {
-    color: 'red',
+    color: "red",
     paddingLeft: 20,
-  }
+  },
 });
