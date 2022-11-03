@@ -54,7 +54,7 @@ export default function NewPostFormScreen() {
 
         if (!image) {
           return Alert.alert("Terjadi Kesalahan", "Harap memilih gambar", [
-            { text: "OK", onPress: () => {} },
+            { text: "OK", onPress: () => { } },
           ]);
         }
 
@@ -75,7 +75,7 @@ export default function NewPostFormScreen() {
           setSubmitting(false);
 
           return Alert.alert("Terjadi Kesalahan", errorMessage, [
-            { text: "OK", onPress: () => {} },
+            { text: "OK", onPress: () => { } },
           ]);
         }
 
@@ -99,10 +99,8 @@ export default function NewPostFormScreen() {
           >
             <View
               style={{
-                marginBottom: 10,
-                marginTop: 20,
-                marginLeft: 20,
-                marginRight: 20,
+                marginHorizontal: 30,
+                marginVertical: 15,
               }}
             >
               <TextInput
@@ -122,10 +120,8 @@ export default function NewPostFormScreen() {
             </View>
             <View
               style={{
-                marginBottom: 10,
-                marginTop: 10,
-                marginLeft: 20,
-                marginRight: 20,
+                marginHorizontal: 30,
+                marginVertical: 15,
               }}
             >
               <TextInput
@@ -311,6 +307,7 @@ const styles = StyleSheet.create({
   },
   textInputErrorMessage: {
     color: "red",
-    paddingLeft: 10,
+    marginTop: 10,
+    paddingLeft: 0,
   },
 });
