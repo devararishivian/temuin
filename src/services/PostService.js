@@ -1,5 +1,8 @@
 import { supabase } from '../lib/supabase';
-import { DEFAULT_RESPONSE as defaultResponse } from './Response';
+import {
+    DEFAULT_RESPONSE as defaultResponse,
+    DEFAULT_RESPONSE_WITH_DATA as defaultResponseWD
+} from './Response';
 import { decode } from 'base64-arraybuffer';
 
 export async function newPost(requestBody, authData) {
@@ -43,5 +46,23 @@ export async function newPost(requestBody, authData) {
         return response;
     }
 
+    return response;
+}
+
+export async function getUserPost(userID) {
+    let response = defaultResponseWD;
+
+    let { data: posts, error } = await supabase
+        .from('post')
+        .select('*')
+        .eq('user_id', userID);
+
+    if (error) {
+        response.isError = true;
+        response.errorMessage = error.message;
+        return response;
+    }
+
+    response.data = posts;
     return response;
 }

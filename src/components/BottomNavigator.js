@@ -1,9 +1,11 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Icon, Dialog } from "@rneui/themed";
 import { Pressable, Text } from "react-native";
 import TimelineScreen from "../screens/App/Timeline";
 import * as AuthService from "../services/AuthService";
-import ProfileScreen from "../screens/App/Profile";
+import ProfileScreen from "../screens/App/Profile/Profile";
+import EditProfileScreen from '../screens/App/Profile/Edit';
 import NewPostScreen from "../screens/App/Post/NewPost";
 import useAuthStore from "../store/AuthStore";
 import usePostStore from "../store/PostStore";
@@ -11,6 +13,16 @@ import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+const ProfileScreens = () => {
+    return (
+        <Stack.Navigator screenOptions={{ header: () => null }}>
+            <Stack.Screen name="ProfileIndex" component={ProfileScreen} />
+            <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+        </Stack.Navigator>
+    );
+}
 
 export default function BottomNavigator() {
   const navigation = useNavigation();
@@ -38,7 +50,7 @@ export default function BottomNavigator() {
     resetAllNewPostData();
     navigation.navigate("Timeline");
   };
-
+  
   return (
     <>
       <Dialog
@@ -98,7 +110,7 @@ export default function BottomNavigator() {
         />
         <Tab.Screen
           name="Profile"
-          component={ProfileScreen}
+          component={ProfileScreens}
           options={{
             headerTitle: "Profil",
             headerRight: () => (
