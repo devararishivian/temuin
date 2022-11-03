@@ -65,7 +65,7 @@ export default function ProfileScreen({ navigation }) {
             width: "100%",
             backgroundColor: "#FED386",
             height: 150,
-            borderBottomRightRadius: "300%",
+            borderBottomRightRadius: 300,
             justifyContent: "center",
             alignItems: "center",
           }}
@@ -94,7 +94,7 @@ export default function ProfileScreen({ navigation }) {
           }}
         >
           <Text style={styles.profileName}>{name}</Text>
-          <Text style={{ color: "#AE3012", fontSize: "15" }}>@{username}</Text>
+          <Text style={{ color: "#AE3012", fontSize: 15 }}>@{username}</Text>
         </View>
       </View>
       <View style={styles.container}>
