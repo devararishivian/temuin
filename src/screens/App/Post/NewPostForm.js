@@ -6,7 +6,6 @@ import {
   View,
   ActivityIndicator,
   Alert,
-  TextInput,
 } from "react-native";
 import { Image, Button, Input } from "@rneui/themed";
 import { Formik } from "formik";
@@ -105,7 +104,7 @@ export default function NewPostFormScreen() {
                 marginRight: 20,
               }}
             >
-              <TextInput
+              <Input
                 placeholder="Judul Post"
                 autoCorrect={false}
                 autoComplete="off"
@@ -128,12 +127,12 @@ export default function NewPostFormScreen() {
                 marginRight: 20,
               }}
             >
-              <TextInput
+              <Input
                 placeholder="Deskripsi Post"
                 autoCorrect={false}
                 autoComplete="off"
                 multiline={true}
-                numberOfLines={2}
+                numberOfLines={10}
                 onChangeText={handleChange("description")}
                 value={values.description}
                 placeholderTextColor={"#EB7658"}

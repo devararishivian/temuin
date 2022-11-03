@@ -32,7 +32,7 @@ export default function EditProfileScreen({ navigation }) {
             width: "100%",
             backgroundColor: "#FED386",
             height: 150,
-            borderBottomRightRadius: 300,
+            borderBottomRightRadius: "300%",
             justifyContent: "center",
             alignItems: "center",
           }}
