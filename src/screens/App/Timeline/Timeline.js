@@ -15,7 +15,7 @@ import { FlashList } from "@shopify/flash-list";
 import * as PostService from "../../../services/PostService";
 
 export default function TimelineScreen({ navigation }) {
-  const [post, setPost] = useState([]);
+  const [post, setPost] = useState();
 
   useEffect(() => {
     async function getAllPosts() {
@@ -121,8 +121,7 @@ export default function TimelineScreen({ navigation }) {
                   type="ionicon"
                   name="ios-open-outline"
                   color={"#AE3012"}
-                  size={"15"}
-                  containerStyle={{}}
+                  size={15}
                 ></Icon>
               </Pressable>
             </View>
