@@ -15,7 +15,7 @@ Dari latar belakang tersebut, terciptalah Temuin yang diharapkan dapat sangat be
 - [React](https://beta.reactjs.org) - UI framework
 - [React Native](https://reactnative.dev) - cross-platform mobile framework
 - [Expo](https://expo.dev) - SDK untuk mempermudah pengembangan aplikasi React Native
-- [Native Base](https://nativebase.io) - Universal Components for React & React Native
+- [React Native Elements](https://reactnativeelements.com/) - A React Native framework for making cross platform applications
 - [Supabase](https://supabase.com) - Backend as a service sebagai alternatif open-source dari Firebase
 - [Yarn](https://classic.yarnpkg.com) - Dependency/Package manager
 
