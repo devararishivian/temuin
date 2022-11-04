@@ -82,7 +82,7 @@ export default function DetailTimelineScreen({ route, navigation }) {
           setSubmitting(false);
 
           return Alert.alert("Terjadi Kesalahan", errorMessage, [
-            { text: "OK", onPress: () => {} },
+            { text: "OK", onPress: () => { } },
           ]);
         }
         setValues("comment", "");
@@ -109,22 +109,13 @@ export default function DetailTimelineScreen({ route, navigation }) {
                 marginTop: 20,
               }}
             >
-              <View
-                style={{
-                  height: 30,
-                  width: 30,
-                  backgroundColor: "#AE3012",
-                  borderRadius: 10,
-                  marginLeft: 10,
-                }}
-              ></View>
-              {/* <Image
+              <Image
                 style={styles.avatar}
-                source={require("../../../../assets/avatar-profile.png")}
-              /> */}
+                source={require("../../../../assets/avatar-default.jpg")}
+              />
               <Text
                 style={{
-                  paddingLeft: 6,
+                  marginLeft: 10,
                   fontSize: 16,
                   fontWeight: "bold",
                   color: "#AE3012",
@@ -145,12 +136,12 @@ export default function DetailTimelineScreen({ route, navigation }) {
                       marginRight: 10,
                       borderRadius: 5,
                       backgroundColor: "#CF0A0A",
-                      width: 80,
+                      width: 100,
                       height: 30,
                     }}
                     value="Kehilangan"
                     status="warning"
-                    textStyle={{ fontSize: 13, color: "#FFB200" }}
+                    textStyle={{ fontSize: 13, color: "#FFFFFF" }}
                   />
                 ) : (
                   <Badge
@@ -159,12 +150,12 @@ export default function DetailTimelineScreen({ route, navigation }) {
                       marginRight: 10,
                       borderRadius: 5,
                       backgroundColor: "#54B435",
-                      width: 80,
+                      width: 100,
                       height: 30,
                     }}
                     value="Menemukan"
                     status="primary"
-                    textStyle={{ fontSize: 13, color: "#E1FFB1" }}
+                    textStyle={{ fontSize: 13, color: "#FFFFFF" }}
                   />
                 )}
               </View>
@@ -177,26 +168,17 @@ export default function DetailTimelineScreen({ route, navigation }) {
               </Text>
               {post.description}
             </Text>
-            <Divider width={1} />
+            <Divider style={{ marginTop: 15, marginBottom: 15 }} width={2} />
             <FlashList
               numColumns={1}
               horizontal={false}
               data={postComments}
               renderItem={({ item }) => (
                 <View style={styles.container}>
-                  <View
-                    style={{
-                      height: 30,
-                      width: 30,
-                      backgroundColor: "#AE3012",
-                      borderRadius: 10,
-                      // marginLeft: 10,
-                    }}
-                  ></View>
-                  {/* <Image
-                    style={styles.avatar}
-                    source={require("../../../../assets/avatar-profile.png")}
-                  /> */}
+                  <Image
+                    style={styles.commentAvatar}
+                    source={require("../../../../assets/avatar-default.jpg")}
+                  />
                   <View
                     style={{
                       flexDirection: "column",
@@ -228,6 +210,7 @@ export default function DetailTimelineScreen({ route, navigation }) {
                     >
                       <View
                         style={{
+                          // flexDirection
                           alignItems: "flex-end",
                           // justifyContent: "flex-end",
                           // height: "100%",
@@ -258,10 +241,11 @@ export default function DetailTimelineScreen({ route, navigation }) {
             style={{
               flexDirection: "row",
               alignItems: "center",
-              backgroundColor: "white",
-              // height: "100%",
-              // justifyContent: "center",
-              // marginTop: 5,
+              backgroundColor: "#F9F9F9",
+              borderTopWidth: 0.2,
+              borderBottomWidth: 0.2,
+              borderTopColor: "#FAF7F0",
+              borderBottomColor: "#FAF7F0",
             }}
           >
             <TextInput
@@ -292,10 +276,15 @@ export default function DetailTimelineScreen({ route, navigation }) {
 }
 const styles = StyleSheet.create({
   avatar: {
-    width: 35,
-    height: 35,
+    width: 30,
+    height: 30,
     borderRadius: 100,
-    // marginLeft: 10,
+    marginLeft: 10
+  },
+  commentAvatar: {
+    width: 30,
+    height: 30,
+    borderRadius: 100,
   },
   cardImage: {
     // marginTop: 10,
@@ -319,7 +308,6 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: "center",
     padding: 10,
-    backgroundColor: "white",
     // marginTop: 5,
     justifyContent: "center",
   },
@@ -327,11 +315,12 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 15,
     color: "#252525",
+    textAlign: "justify"
   },
   container: {
     flexDirection: "row",
-    marginTop: 10,
-    marginLeft: 10,
+    marginVertical: 10,
+    marginHorizontal: 20
     // justifyContent: "center",
     // alignItems: "center",
   },
