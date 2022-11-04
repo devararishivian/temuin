@@ -29,14 +29,17 @@ export default function TimelineScreen({ navigation }) {
   }, []);
 
   return (
-    <ScrollView style={{ backgroundColor: "#F8F9FD", height: "100%" }}>
+    <ScrollView
+      style={{ height: "100%", backgroundColor: "white", width: "100%" }}
+      showsVerticalScrollIndicator={false}
+    >
       <FlashList
         numColumns={1}
         horizontal={false}
         data={post}
         renderItem={({ item }) => (
           <View style={styles.container}>
-            <TouchableOpacity style={styles.card}>
+            <View style={styles.card}>
               <View
                 style={{
                   flexDirection: "row",
@@ -44,27 +47,69 @@ export default function TimelineScreen({ navigation }) {
                   marginTop: 5,
                 }}
               >
-                <Image
+                <View
+                  style={{
+                    height: 30,
+                    width: 30,
+                    backgroundColor: "#AE3012",
+                    borderRadius: 10,
+                  }}
+                ></View>
+                {/* <Image
                   style={styles.avatar}
                   source={require("../../../../assets/avatar-profile.png")}
-                />
-                <Text style={{ paddingLeft: 6 }}>{item.user.name}</Text>
-                {item.is_looking_for ? (
-                  <Badge
-                    style={{ marginLeft: "auto" }}
-                    value="Kehilangan"
-                    status="warning"
-                  />
-                ) : (
-                  <Badge
-                    style={{ marginLeft: "auto" }}
-                    value="Menemukan"
-                    status="primary"
-                  />
-                )}
+                /> */}
+                <Text
+                  style={{
+                    paddingLeft: 6,
+                    fontSize: 16,
+                    fontWeight: "bold",
+                    color: "#AE3012",
+                  }}
+                >
+                  {item.user.name}
+                </Text>
+                <View
+                  style={{
+                    alignItems: "flex-end",
+                    width: "100%",
+                    position: "absolute",
+                  }}
+                >
+                  {item.is_looking_for ? (
+                    <Badge
+                      // style={{ marginLeft: "auto" }}
+                      badgeStyle={{
+                        borderRadius: 5,
+                        backgroundColor: "#CF0A0A",
+                        width: 80,
+                        height: 30,
+                      }}
+                      value="Kehilangan"
+                      status="warning"
+                      textStyle={{ fontSize: 13, color: "#FFB200" }}
+                    />
+                  ) : (
+                    <Badge
+                      // style={{ marginLeft: "auto" }}
+                      badgeStyle={{
+                        borderRadius: 5,
+                        backgroundColor: "#54B435",
+                        width: 80,
+                        height: 30,
+                      }}
+                      value="Menemukan"
+                      status="primary"
+                      textStyle={{ fontSize: 13, color: "#E1FFB1" }}
+                    />
+                  )}
+                </View>
               </View>
               <Image style={styles.cardImage} source={{ uri: item.image }} />
-              <Text style={styles.cardText}>{item.title}</Text>
+              <Text style={styles.cardText}>
+                Keterangan :{" "}
+                <Text style={{ fontWeight: "normal" }}>{item.title}</Text>
+              </Text>
               <Pressable
                 style={styles.button}
                 onPress={() =>
@@ -72,9 +117,15 @@ export default function TimelineScreen({ navigation }) {
                 }
               >
                 <Text style={styles.buttonText}>Detail Informasi</Text>
-                <Icon type="ionicon" name="ios-open-outline"></Icon>
+                <Icon
+                  type="ionicon"
+                  name="ios-open-outline"
+                  color={"#AE3012"}
+                  size={"15"}
+                  containerStyle={{}}
+                ></Icon>
               </Pressable>
-            </TouchableOpacity>
+            </View>
           </View>
         )}
         ListEmptyComponent={<Text>No Post</Text>}
@@ -92,14 +143,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     height: 40,
-    borderRadius: 3,
+    borderRadius: 10,
     elevation: 3,
-    backgroundColor: "#EAEAEA",
-  },
-  scrollView: {
-    flex: 1,
-    backgroundColor: "#F8F9FD",
-    padding: 15,
+    backgroundColor: "#FED386",
   },
   avatar: {
     width: 35,
@@ -108,29 +154,39 @@ const styles = StyleSheet.create({
   },
   container: {
     marginTop: 20,
-    backgroundColor: "#f5cff",
+    height: "100%",
+    width: "100%",
+    backgroundColor: "white",
   },
   card: {
-    backgroundColor: "#fff",
+    backgroundColor: "white",
     marginBottom: 10,
     marginLeft: "2%",
     width: "96%",
-    shadowColor: "#000",
-    shadowOpacity: 0.2,
-    shadowRadius: 1,
-    shadowOffset: {
-      width: 3,
-      height: 3,
-    },
+    // shadowColor: "#000",
+    // shadowOpacity: 0.2,
+    // shadowRadius: 1,
+    // shadowOffset: {
+    //   width: 3,
+    //   height: 3,
+    // },
   },
   cardImage: {
     marginTop: 10,
     width: "100%",
     height: 200,
     resizeMode: "cover",
+    borderRadius: 10,
   },
   cardText: {
-    padding: 10,
-    fontSize: 16,
+    paddingVertical: 10,
+    fontWeight: "bold",
+    // padding: 10,
+    fontSize: 15,
+  },
+  buttonText: {
+    color: "#AE3012",
+    fontWeight: "bold",
+    marginRight: 10,
   },
 });
