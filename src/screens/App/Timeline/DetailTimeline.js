@@ -280,7 +280,7 @@ export default function DetailTimelineScreen({ route, navigation }) {
               disabled={isSubmitting}
               style={styles.button}
             >
-              <Text style={styles.text}>
+              <Text style={{ color: "#252525" }}>
                 {isSubmitting ? <ActivityIndicator /> : "Kirim"}
               </Text>
             </Pressable>
