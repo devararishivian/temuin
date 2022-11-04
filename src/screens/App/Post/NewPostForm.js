@@ -56,11 +56,14 @@ export default function NewPostFormScreen() {
             { text: "OK", onPress: () => {} },
           ]);
         }
-
+        const isLookingForSelected = false;
+        if (selectedPostType) {
+          isLookingForSelected = true;
+        }
         const requestBody = {
           title: values.title,
           description: values.description,
-          isLookingFor: selectedPostType,
+          isLookingFor: isLookingForSelected,
           image: image.base64,
         };
 
