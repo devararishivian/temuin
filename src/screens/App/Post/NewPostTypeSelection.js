@@ -67,11 +67,11 @@ export default function NewPostTypeSelectionScreen({ navigation }) {
           }}
           style={{
             marginTop: 40,
-            marginLeft: 20,
-            marginRight: 20,
+            marginHorizontal: 20,
             backgroundColor: "#FFE3B2",
             borderRadius: 20,
-            height: 300,
+            paddingBottom: 75
+            // height: 300,
           }}
           itemStyle={{ fontSize: 15, color: "#AE3012", fontWeight: "bold" }}
         >
