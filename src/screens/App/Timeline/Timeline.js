@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import * as React from "react";
 import {
-  Button,
   StyleSheet,
   View,
   Pressable,
   ScrollView,
   Text,
   Image,
-  TouchableOpacity,
+  Avatar
 } from "react-native";
 import { Icon, Badge } from "@rneui/themed";
 import { FlashList } from "@shopify/flash-list";
@@ -47,21 +46,13 @@ export default function TimelineScreen({ navigation }) {
                   marginTop: 5,
                 }}
               >
-                <View
-                  style={{
-                    height: 30,
-                    width: 30,
-                    backgroundColor: "#AE3012",
-                    borderRadius: 10,
-                  }}
-                ></View>
-                {/* <Image
+                <Image
                   style={styles.avatar}
-                  source={require("../../../../assets/avatar-profile.png")}
-                /> */}
+                  source={require("../../../../assets/avatar-default.jpg")}
+                />
                 <Text
                   style={{
-                    paddingLeft: 6,
+                    marginLeft: 10,
                     fontSize: 16,
                     fontWeight: "bold",
                     color: "#AE3012",
@@ -145,8 +136,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#FED386",
   },
   avatar: {
-    width: 35,
-    height: 35,
+    width: 30,
+    height: 30,
     borderRadius: 100,
   },
   container: {
