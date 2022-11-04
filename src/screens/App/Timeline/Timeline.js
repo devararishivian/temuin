@@ -6,8 +6,7 @@ import {
   Pressable,
   ScrollView,
   Text,
-  Image,
-  Avatar
+  Image
 } from "react-native";
 import { Icon, Badge } from "@rneui/themed";
 import { FlashList } from "@shopify/flash-list";

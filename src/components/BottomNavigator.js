@@ -89,7 +89,7 @@ export default function BottomNavigator() {
             headerTitle: "Temuin",
             headerRight: () => (
               <Pressable onPress={handleLogout} style={{ marginRight: 15 }}>
-                <Icon type="ant-design" name="logout" color="black" />
+                <Icon type="feather" name="log-out" color="black" />
               </Pressable>
             ),
             tabBarLabel: "Beranda",
@@ -127,7 +127,7 @@ export default function BottomNavigator() {
             headerTitle: "Profil",
             headerRight: () => (
               <Pressable onPress={handleLogout} style={{ marginRight: 15 }}>
-                <Icon type="ant-design" name="logout" color="black" />
+                <Icon type="feather" name="log-out" color="black" />
               </Pressable>
             ),
             tabBarLabel: "Profil",
