@@ -37,10 +37,11 @@ function App() {
   useEffect(() => {
     async function getSession() {
       const { data, error } = await supabase.auth.getSession();
-      if (data && !error) {
+
+      if (data.session && !error) {
         storeAuthData(data.session);
 
-        const { data: userData, error: userDataError } = await UserService.getUserData(authData.user.id);
+        const { data: userData, error: userDataError } = await UserService.getUserData(data.session.user.id);
         if (userData && !userDataError) {
           storeUserData(userData[0]);
         } else {
@@ -55,7 +56,6 @@ function App() {
       storeAuthData(session);
     })
   }, []);
-
 
   return (
     <SafeAreaProvider>
