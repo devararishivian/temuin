@@ -79,7 +79,8 @@ export default function BottomNavigator() {
       <Tab.Navigator
         initialRouteName="Timeline"
         screenOptions={{
-          tabBarActiveTintColor: "#e91e63",
+          tabBarActiveTintColor: "#AE3012",
+          tabBarShowLabel: false,
         }}
       >
         <Tab.Screen
@@ -92,7 +93,6 @@ export default function BottomNavigator() {
                 <Icon type="feather" name="log-out" color="black" />
               </Pressable>
             ),
-            tabBarLabel: "Beranda",
             tabBarIcon: ({ color, size }) => (
               <Icon type="feather" name="home" color={color} size={size} />
             ),
@@ -108,7 +108,6 @@ export default function BottomNavigator() {
                 <Icon type="feather" name="chevron-left" color="black" />
               </Pressable>
             ),
-            tabBarLabel: "Post Baru",
             tabBarIcon: ({ color, size }) => (
               <Icon
                 type="feather"
@@ -130,7 +129,6 @@ export default function BottomNavigator() {
                 <Icon type="feather" name="log-out" color="black" />
               </Pressable>
             ),
-            tabBarLabel: "Profil",
             tabBarIcon: ({ color, size }) => (
               <Icon type="feather" name="user" color={color} size={size} />
             ),
