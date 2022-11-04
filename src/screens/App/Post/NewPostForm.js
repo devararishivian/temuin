@@ -53,13 +53,15 @@ export default function NewPostFormScreen() {
 
         if (!image) {
           return Alert.alert("Terjadi Kesalahan", "Harap memilih gambar", [
-            { text: "OK", onPress: () => {} },
+            { text: "OK", onPress: () => { } },
           ]);
         }
-        const isLookingForSelected = false;
+
+        let isLookingForSelected = false;
         if (selectedPostType) {
           isLookingForSelected = true;
         }
+
         const requestBody = {
           title: values.title,
           description: values.description,
@@ -77,7 +79,7 @@ export default function NewPostFormScreen() {
           setSubmitting(false);
 
           return Alert.alert("Terjadi Kesalahan", errorMessage, [
-            { text: "OK", onPress: () => {} },
+            { text: "OK", onPress: () => { } },
           ]);
         }
 
@@ -85,9 +87,7 @@ export default function NewPostFormScreen() {
       }}
     >
       {({ handleChange, handleSubmit, values, isSubmitting, errors }) => (
-        <View
-          //   contentContainerStyle={styles.container}
-          //   showsVerticalScrollIndicator={false}
+        <ScrollView
           style={{ backgroundColor: "#AE3012", width: "100%", height: "100%" }}
         >
           <View
@@ -211,11 +211,8 @@ export default function NewPostFormScreen() {
             )}
           </View>
           <Button
-            // type="outline"
             color="#FFFFE0"
             style={{
-              // borderColor: "#FED386",
-              // borderWidth: 3,
               backgroundColor: "#FFFFE0",
               borderRadius: 10,
               marginLeft: 20,
@@ -231,11 +228,9 @@ export default function NewPostFormScreen() {
               color: "#AE3012",
               fontSize: 15,
               fontWeight: "bold",
-              // justifyContent: "center",
-              // alignItems: "center",
             }}
           />
-        </View>
+        </ScrollView>
       )}
     </Formik>
   );
