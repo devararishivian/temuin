@@ -78,29 +78,27 @@ export default function TimelineScreen({ navigation }) {
                 >
                   {item.is_looking_for ? (
                     <Badge
-                      // style={{ marginLeft: "auto" }}
                       badgeStyle={{
                         borderRadius: 5,
                         backgroundColor: "#CF0A0A",
-                        width: 80,
+                        width: 100,
                         height: 30,
                       }}
                       value="Kehilangan"
                       status="warning"
-                      textStyle={{ fontSize: 13, color: "#FFB200" }}
-                    />
+                      textStyle={{ fontSize: 13, color: "#FFFFFF" }}
+                    ></Badge>
                   ) : (
                     <Badge
-                      // style={{ marginLeft: "auto" }}
                       badgeStyle={{
                         borderRadius: 5,
                         backgroundColor: "#54B435",
-                        width: 80,
+                        width: 100,
                         height: 30,
                       }}
                       value="Menemukan"
                       status="primary"
-                      textStyle={{ fontSize: 13, color: "#E1FFB1" }}
+                      textStyle={{ fontSize: 13, color: "#FFFFFF" }}
                     />
                   )}
                 </View>
