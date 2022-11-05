@@ -40,7 +40,8 @@ export async function getAllCommentByPostID(postID) {
       comment,
       created_at,
       user (
-        name
+        name,
+        profil_pict
       )
     `)
     .eq("post_id", postID)

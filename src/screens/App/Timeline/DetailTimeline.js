@@ -48,7 +48,10 @@ export default function DetailTimelineScreen({ route, navigation }) {
           created_at: formattedCommentTime,
           id: element.id,
           post_id: element.post_id,
-          user: { name: element.user.name },
+          user: {
+            name: element.user.name,
+            profilePict: element.user.profil_pict
+          },
           user_id: element.user_id,
         });
       });
@@ -125,7 +128,10 @@ export default function DetailTimelineScreen({ route, navigation }) {
             >
               <Image
                 style={styles.avatar}
-                source={require("../../../../assets/avatar-default.jpg")}
+                source={
+                  post.user.profil_pict ?
+                    { uri: post.user.profil_pict } : require("../../../../assets/avatar-default.jpg")
+                }
               />
               <Text
                 style={{
@@ -191,7 +197,10 @@ export default function DetailTimelineScreen({ route, navigation }) {
                 <View style={styles.container}>
                   <Image
                     style={styles.commentAvatar}
-                    source={require("../../../../assets/avatar-default.jpg")}
+                    source={
+                      item.user.profilePict ?
+                        { uri: item.user.profilePict } : require("../../../../assets/avatar-default.jpg")
+                    }
                   />
                   <View
                     style={{
