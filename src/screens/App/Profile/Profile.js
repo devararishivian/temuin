@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   ScrollView,
   Image,
   Pressable,
+  RefreshControl
 } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 import * as UserService from "../../../services/UserService";
@@ -16,6 +17,7 @@ import { id } from "date-fns/locale";
 
 export default function ProfileScreen({ navigation }) {
   const authData = useAuthStore((state) => state.authData);
+  const [refreshing, setRefreshing] = useState(false);
 
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
@@ -23,44 +25,57 @@ export default function ProfileScreen({ navigation }) {
   const [registeredAt, setRegisteredAt] = useState("");
   const [posts, setPost] = useState();
 
+  async function getUserData() {
+    const { data, isError, errorMessage } = await UserService.getUserData(
+      authData.user.id
+    );
+    if (data) {
+      setName(data[0].name);
+      setUsername(data[0].username);
+      setProfilePict(data[0].profil_pict);
+
+      let formattedRegisteredAt = format(
+        new Date(data[0].created_at),
+        "d MMMM yyyy",
+        {
+          locale: id,
+        }
+      );
+
+      setRegisteredAt(formattedRegisteredAt);
+    }
+  }
+
+  async function getUserPosts() {
+    const { data, isError, errorMessage } = await PostService.getUserPost(
+      authData.user.id
+    );
+    if (data) {
+      setPost(data);
+    }
+  }
+
   useEffect(() => {
-    async function getUserData() {
-      const { data, isError, errorMessage } = await UserService.getUserData(
-        authData.user.id
-      );
-      if (data) {
-        setName(data[0].name);
-        setUsername(data[0].username);
-        setProfilePict(data[0].profil_pict);
-
-        let formattedRegisteredAt = format(
-          new Date(data[0].created_at),
-          "d MMMM yyyy",
-          {
-            locale: id,
-          }
-        );
-
-        setRegisteredAt(formattedRegisteredAt);
-      }
-    }
-
     getUserData();
-
-    async function getUserPosts() {
-      const { data, isError, errorMessage } = await PostService.getUserPost(
-        authData.user.id
-      );
-      if (data) {
-        setPost(data);
-      }
-    }
-
     getUserPosts();
   }, []);
 
+  const onRefresh = useCallback(async () => {
+    await getUserData();
+    await getUserPosts();
+
+    console.info('profile page refreshed');
+  }, []);
+
   return (
-    <ScrollView style={{ backgroundColor: "white", height: "100%" }}>
+    <ScrollView
+      style={{ backgroundColor: "white", height: "100%" }}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+        />
+      }>
       <View>
         <View
           style={{
