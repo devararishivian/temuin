@@ -48,16 +48,10 @@ export default function EditProfileScreen({ route, navigation }) {
       onSubmit={async (values, { setSubmitting }) => {
         setSubmitting(true);
 
-        if (!image) {
-          return Alert.alert("Terjadi Kesalahan", "Harap memilih gambar", [
-            { text: "OK", onPress: () => { } },
-          ]);
-        }
-
         const requestBody = {
           userID: userID,
           name: values.name,
-          image: image.base64,
+          image: image ? image.base64 : null,
         };
 
         const { isError, errorMessage } = await UserService.updateUserData(requestBody);
@@ -104,7 +98,10 @@ export default function EditProfileScreen({ route, navigation }) {
                   width: 70,
                   borderRadius: 15,
                 }}
-                source={{ uri: currentProfilePict }}
+                source={
+                  currentProfilePict ?
+                    { uri: currentProfilePict } : require("../../../../assets/avatar-default.jpg")
+                }
               />
             )}
           </View>
