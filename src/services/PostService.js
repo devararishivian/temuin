@@ -94,7 +94,7 @@ export async function getAllPost() {
 
   let { data: posts, error } = await supabase
     .from("post")
-    .select("*,user(name)")
+    .select("*,user(name, profil_pict)")
     .order('created_at', { ascending: false });
 
   if (error) {

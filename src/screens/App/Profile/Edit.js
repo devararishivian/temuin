@@ -21,7 +21,7 @@ const schema = Yup.object().shape({
 });
 
 export default function EditProfileScreen({ route, navigation }) {
-  const { userID, currentName } = route.params;
+  const { userID, currentName, currentProfilePict } = route.params;
   const [image, setImage] = useState(null);
   const authData = useAuthStore((state) => state.authData);
 
@@ -48,16 +48,10 @@ export default function EditProfileScreen({ route, navigation }) {
       onSubmit={async (values, { setSubmitting }) => {
         setSubmitting(true);
 
-        if (!image) {
-          return Alert.alert("Terjadi Kesalahan", "Harap memilih gambar", [
-            { text: "OK", onPress: () => { } },
-          ]);
-        }
-
         const requestBody = {
           userID: userID,
           name: values.name,
-          image: image.base64,
+          image: image ? image.base64 : null,
         };
 
         const { isError, errorMessage } = await UserService.updateUserData(requestBody);
@@ -98,14 +92,17 @@ export default function EditProfileScreen({ route, navigation }) {
                 />
               </View>
             ) : (
-              <View
-              style={{
-                height: 70,
-                width: 70,
-                backgroundColor: "#AE3012",
-                borderRadius: 15,
-              }}
-            ></View>
+              <Image
+                style={{
+                  height: 70,
+                  width: 70,
+                  borderRadius: 15,
+                }}
+                source={
+                  currentProfilePict ?
+                    { uri: currentProfilePict } : require("../../../../assets/avatar-default.jpg")
+                }
+              />
             )}
           </View>
           <View style={styles.container}>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { View } from "react-native";
 import {
   Pressable,
@@ -9,7 +9,7 @@ import {
   TextInput,
   Alert,
   ActivityIndicator,
-  KeyboardAvoidingView,
+  RefreshControl
 } from "react-native";
 import { Icon, Divider, Badge } from "@rneui/themed";
 import { Formik } from "formik";
@@ -28,36 +28,46 @@ export default function DetailTimelineScreen({ route, navigation }) {
   const { post } = route.params;
   const authData = useAuthStore((state) => state.authData);
   const [postComments, setPostComments] = useState();
+  const [refreshing, setRefreshing] = useState(false);
+
+  async function getAllCommentByPostID() {
+    const { data, isError, errorMessage } =
+      await CommentService.getAllCommentByPostID(post.id);
+    if (data) {
+      let formatedData = [];
+      data.forEach((element) => {
+        let formattedCommentTime = format(
+          new Date(element.created_at),
+          "dd MMMM yyyy HH:mm",
+          {
+            locale: id,
+          }
+        );
+        formatedData.push({
+          comment: element.comment,
+          created_at: formattedCommentTime,
+          id: element.id,
+          post_id: element.post_id,
+          user: {
+            name: element.user.name,
+            profilePict: element.user.profil_pict
+          },
+          user_id: element.user_id,
+        });
+      });
+
+      setPostComments(formatedData);
+    }
+  }
 
   useEffect(() => {
-    async function getAllCommentByPostID() {
-      const { data, isError, errorMessage } =
-        await CommentService.getAllCommentByPostID(post.id);
-      if (data) {
-        let formatedData = [];
-        data.forEach((element) => {
-          let formattedCommentTime = format(
-            new Date(element.created_at),
-            "dd MMMM yyyy HH:mm",
-            {
-              locale: id,
-            }
-          );
-          formatedData.push({
-            comment: element.comment,
-            created_at: formattedCommentTime,
-            id: element.id,
-            post_id: element.post_id,
-            user: { name: element.user.name },
-            user_id: element.user_id,
-          });
-        });
-
-        setPostComments(formatedData);
-      }
-    }
-
     getAllCommentByPostID();
+  }, []);
+
+  const onRefresh = useCallback(async () => {
+    await getAllCommentByPostID();
+
+    console.info('comment(s) refreshed');
   }, []);
 
   return (
@@ -86,6 +96,7 @@ export default function DetailTimelineScreen({ route, navigation }) {
           ]);
         }
         setValues("comment", "");
+        onRefresh();
       }}
     >
       {({
@@ -101,6 +112,12 @@ export default function DetailTimelineScreen({ route, navigation }) {
           <ScrollView
             style={{ backgroundColor: "white", height: "93%" }}
             showsVerticalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+              />
+            }
           >
             <View
               style={{
@@ -111,7 +128,10 @@ export default function DetailTimelineScreen({ route, navigation }) {
             >
               <Image
                 style={styles.avatar}
-                source={require("../../../../assets/avatar-default.jpg")}
+                source={
+                  post.user.profil_pict ?
+                    { uri: post.user.profil_pict } : require("../../../../assets/avatar-default.jpg")
+                }
               />
               <Text
                 style={{
@@ -177,7 +197,10 @@ export default function DetailTimelineScreen({ route, navigation }) {
                 <View style={styles.container}>
                   <Image
                     style={styles.commentAvatar}
-                    source={require("../../../../assets/avatar-default.jpg")}
+                    source={
+                      item.user.profilePict ?
+                        { uri: item.user.profilePict } : require("../../../../assets/avatar-default.jpg")
+                    }
                   />
                   <View
                     style={{

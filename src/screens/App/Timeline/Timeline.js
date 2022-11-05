@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import * as React from "react";
 import {
   StyleSheet,
@@ -6,7 +6,8 @@ import {
   Pressable,
   ScrollView,
   Text,
-  Image
+  Image,
+  RefreshControl
 } from "react-native";
 import { Icon, Badge } from "@rneui/themed";
 import { FlashList } from "@shopify/flash-list";
@@ -14,22 +15,39 @@ import * as PostService from "../../../services/PostService";
 
 export default function TimelineScreen({ navigation }) {
   const [post, setPost] = useState();
+  const [refreshing, setRefreshing] = useState(false);
 
-  useEffect(() => {
-    async function getAllPosts() {
-      const { data, isError, errorMessage } = await PostService.getAllPost();
-      if (data) {
-        setPost(data);
-      }
+  async function getAllPosts() {
+    setRefreshing(true);
+
+    const { data, isError, errorMessage } = await PostService.getAllPost();
+    if (data) {
+      setPost(data);
     }
 
+    setRefreshing(false);
+  }
+
+  useEffect(() => {
     getAllPosts();
+  }, []);
+
+  const onRefresh = useCallback(async () => {
+    await getAllPosts();
+
+    console.info('timeline refreshed');
   }, []);
 
   return (
     <ScrollView
       style={{ height: "100%", backgroundColor: "white", width: "100%" }}
-      showsVerticalScrollIndicator={false}
+      showsVerticalScrollIndicator={true}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+        />
+      }
     >
       <FlashList
         numColumns={1}
@@ -47,7 +65,10 @@ export default function TimelineScreen({ navigation }) {
               >
                 <Image
                   style={styles.avatar}
-                  source={require("../../../../assets/avatar-default.jpg")}
+                  source={
+                    item.user.profil_pict ?
+                      { uri: item.user.profil_pict } : require("../../../../assets/avatar-default.jpg")
+                  }
                 />
                 <Text
                   style={{
@@ -115,7 +136,12 @@ export default function TimelineScreen({ navigation }) {
             </View>
           </View>
         )}
-        ListEmptyComponent={<Text>No Post</Text>}
+        ListEmptyComponent={(
+          <Text
+            style={{ textAlign: "center" }}>
+            No Post
+          </Text>
+        )}
         estimatedItemSize={100}
       />
     </ScrollView>
