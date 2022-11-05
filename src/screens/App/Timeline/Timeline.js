@@ -65,7 +65,10 @@ export default function TimelineScreen({ navigation }) {
               >
                 <Image
                   style={styles.avatar}
-                  source={require("../../../../assets/avatar-default.jpg")}
+                  source={
+                    item.user.profil_pict ?
+                      { uri: item.user.profil_pict } : require("../../../../assets/avatar-default.jpg")
+                  }
                 />
                 <Text
                   style={{
