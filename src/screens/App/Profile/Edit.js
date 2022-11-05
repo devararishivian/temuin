@@ -21,7 +21,7 @@ const schema = Yup.object().shape({
 });
 
 export default function EditProfileScreen({ route, navigation }) {
-  const { userID, currentName } = route.params;
+  const { userID, currentName, currentProfilePict } = route.params;
   const [image, setImage] = useState(null);
   const authData = useAuthStore((state) => state.authData);
 
@@ -98,14 +98,14 @@ export default function EditProfileScreen({ route, navigation }) {
                 />
               </View>
             ) : (
-              <View
-              style={{
-                height: 70,
-                width: 70,
-                backgroundColor: "#AE3012",
-                borderRadius: 15,
-              }}
-            ></View>
+              <Image
+                style={{
+                  height: 70,
+                  width: 70,
+                  borderRadius: 15,
+                }}
+                source={{ uri: currentProfilePict }}
+              />
             )}
           </View>
           <View style={styles.container}>

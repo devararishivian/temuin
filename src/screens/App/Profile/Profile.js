@@ -19,6 +19,7 @@ export default function ProfileScreen({ navigation }) {
 
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
+  const [profilePict, setProfilePict] = useState("");
   const [registeredAt, setRegisteredAt] = useState("");
   const [posts, setPost] = useState();
 
@@ -30,6 +31,7 @@ export default function ProfileScreen({ navigation }) {
       if (data) {
         setName(data[0].name);
         setUsername(data[0].username);
+        setProfilePict(data[0].profil_pict);
 
         let formattedRegisteredAt = format(
           new Date(data[0].created_at),
@@ -70,20 +72,18 @@ export default function ProfileScreen({ navigation }) {
             alignItems: "center",
           }}
         >
-          <View
+          <Image
             style={{
               height: 70,
               width: 70,
-              backgroundColor: "#AE3012",
               borderRadius: 15,
               marginTop: 120,
             }}
-          ></View>
-          <View></View>
-          {/* <Image
-            style={styles.avatar}
-            source={require("../../../../assets/avatar-profile.png")}
-          /> */}
+            source={
+              profilePict ?
+                { uri: profilePict } : require("../../../../assets/avatar-default.jpg")
+            }
+          />
         </View>
 
         <View
@@ -111,10 +111,14 @@ export default function ProfileScreen({ navigation }) {
         <Pressable
           style={styles.button}
           onPress={() => navigation.push("EditProfile",
-            { userID: authData.user.id, currentName: name }
+            {
+              userID: authData.user.id,
+              currentName: name,
+              currentProfilePict: profilePict
+            }
           )}
         >
-          <Text style={styles.buttonText}>Edit Profile</Text>
+          <Text style={styles.buttonText}>Ubah Profil</Text>
         </Pressable>
       </View>
       <View style={styles.hairline} />
